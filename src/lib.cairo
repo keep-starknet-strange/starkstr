@@ -1,25 +1,34 @@
 use alexandria_math::bip340::{verify};
 
-use core::byte_array::ByteArrayTrait;
+mod fmt_utils;
 
-impl U256IntoByteArray of Into<u256, ByteArray> {
-    fn into(self: u256) -> ByteArray {
-        let mut ba = Default::default();
-        ba.append_word(self.high.into(), 16);
-        ba.append_word(self.low.into(), 16);
-        ba
-    }
+use fmt_utils::U256IntoByteArray;
+
+// fn main(px: u256, rx: u256, s: u256, m: u256) -> u32 {
+fn main() -> u32 {
+    println!("Verifying Nostr event signature...");
+
+    test_with_hardcoded_values();
+
+    // TODO: Uncomment this once we have the values from the Nostr event as arguments of the main
+    // function
+    //assert!(verify(px, rx, s, m.into()));
+
+    println!("Signature verification successful");
+    0
 }
 
-fn main() -> u32 {
-    println!("Yo, Nostr!");
+fn test_with_hardcoded_values() {
+    // pubkey: "c44f2be1b2fb5371330386046e60207bbd84938d4812ee0c7a3c11be605a7585"
+    let px: u256 = 0xc44f2be1b2fb5371330386046e60207bbd84938d4812ee0c7a3c11be605a7585;
 
-    // Verify a Schnorr signature
-    // https://github.com/bitcoin/bips/blob/master/bip-0340/test-vectors.json
-    let px: u256 = 0xdff1d77f2a671c5f36183726db2341be58feae1da2deced843240f7b502ba659;
-    let rx: u256 = 0x6896bd60eeae296db48a229ff71dfe071bde413e6d43f917dc8dcf8c78de3341;
-    let s: u256 = 0x8906d11ac976abccb20b091292bff4ea897efcb639ea871cfa95f6de339e4b0a;
-    let m: u256 = 0x243f6a8885a308d313198a2e03707344a4093822299f31d0082efa98ec4e6c89;
+    // sig:
+    // "6c398fa11543400a10c1934fb2a28b3f39f78bd87a2d13a060987f39a094c691d82dbd95a20628a376fb337603cbb1cd8de7887c85e38ed029380c9e0bbf076d"
+    // First 64 chars of sig is rx, last 64 chars is s
+    let rx: u256 = 0x6c398fa11543400a10c1934fb2a28b3f39f78bd87a2d13a060987f39a094c691;
+    let s: u256 = 0xd82dbd95a20628a376fb337603cbb1cd8de7887c85e38ed029380c9e0bbf076d;
+
+    // id (message hash): "d2a97d43cd09bc89c97b77d3555a5c72a8650ca86605cbd4b663dc3d412048fa"
+    let m: u256 = 0xd2a97d43cd09bc89c97b77d3555a5c72a8650ca86605cbd4b663dc3d412048fa;
     assert!(verify(px, rx, s, m.into()));
-    0
 }

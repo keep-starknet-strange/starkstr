@@ -1,0 +1,21 @@
+{
+  "name": "nostr-data-gen",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@nostr-dev-kit/ndk": "^2.3.3",
+    "@types/node": "^20.11.5",
+    "nostr-tools": "^2.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
