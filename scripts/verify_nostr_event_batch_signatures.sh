@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Generate Nostr event data
-cd scripts/nostr-data-gen
+cd apps/aggsig_checker_cli
 npm run start
 cd ../..
 
@@ -39,6 +39,9 @@ NOSTR_EVENT_2="${EVENT_2_PK_LOW}, ${EVENT_2_PK_HIGH}, ${EVENT_2_RX_LOW}, ${EVENT
 CMD_PREFIX="scarb cairo-run"
 CMD_ARGS="'[[${NOSTR_EVENT_1}, ${NOSTR_EVENT_2}]]'"
 CMD="${CMD_PREFIX} ${CMD_ARGS}"
+
+cd packages/aggsig_checker
 echo "Running command: ${CMD}"
 # Run the command
 eval ${CMD}
+cd ../..

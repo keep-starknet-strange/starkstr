@@ -21,29 +21,33 @@ The project is structured into several components:
 
 ```
 starkstr/
-├── src/                    # Cairo code that will be used for STARK proof generation
-│   ├── lib.cairo           # Main Cairo library
-│   └── fmt_utils.cairo     # Utility functions
-├── scripts/
-│   ├── nostr-data-gen/    # TypeScript tools for generating test data
-│   │   ├── src/           # Source code
-│   │   └── out/           # Generated Nostr events
-│   └── verify-nostr.sh    # Script to run the verification flow
+├── packages/                # Core packages
+│   └── aggsig_checker/     # Cairo package for signature verification
+│       ├── src/            # Cairo source code
+│       └── Scarb.toml      # Package manifest
+├── apps/                   # Applications
+│   └── aggsig_checker_cli/ # CLI tool for signature verification
+│       ├── src/            # TypeScript source code
+│       └── package.json    # Package manifest
+├── scripts/                # Helper scripts
+│   └── verify_nostr_event_batch_signatures.sh  # Batch verification script
 └── tests/                  # Test suite
 ```
 
 ### Components
 
-1. **Nostr Event Generator** (TypeScript)
+1. **aggsig_checker** (Cairo Package)
+   - Core signature verification logic
+   - Schnorr signature verification using BIP340
+   - Batch verification support
+   - STARK proof generation (coming soon)
 
+2. **aggsig_checker_cli** (TypeScript)
+   - Command-line interface for signature verification
    - Generates sample Nostr events
    - Signs events using Schnorr signatures
    - Outputs events in JSON format
-
-2. **starkstr cairo crate** (Cairo)
-   - Verifies Schnorr signatures
-   - Will be used to generate proofs of valid signatures
-   - Supports batch verification
+   - Converts hex values to Cairo-compatible format
 
 ## 🚀 Getting Started
 
@@ -55,54 +59,49 @@ starkstr/
 ### Installation
 
 1. Clone the repository:
-
    ```bash
    git clone https://github.com/AbdelStark/starkstr.git
    cd starkstr
    ```
 
-2. Install TypeScript dependencies:
-
+2. Install CLI dependencies:
    ```bash
-   cd scripts/nostr-data-gen
+   cd apps/aggsig_checker_cli
    npm install
    cd ../..
    ```
 
-3. Build the Cairo code:
+3. Build the Cairo package:
    ```bash
+   cd packages/aggsig_checker
    scarb build
+   cd ../..
    ```
 
 ### Usage
 
-1. Generate a sample Nostr event:
-
+1. Generate and verify a batch of Nostr events:
    ```bash
-   cd scripts/nostr-data-gen
-   npm run start
-   cd ../..
+   ./scripts/verify_nostr_event_batch_signatures.sh
    ```
 
-   This will create a signed event in `scripts/nostr-data-gen/out/sample-signed-event.json`
-
-2. Verify the signature using Cairo:
+2. Run the CLI tool directly:
    ```bash
-   ./scripts/verify-nostr.sh
+   cd apps/aggsig_checker_cli
+   npm start
    ```
 
 ## 🧪 Testing
 
 Run the test suite:
-
 ```bash
+cd packages/aggsig_checker
 scarb test
 ```
 
 ## 📊 Benchmarks
 
 > Coming soon: We will be adding comprehensive benchmarks to evaluate:
->
 > - Proof generation time
 > - Verification time
 > - Cloud costs
@@ -112,14 +111,12 @@ scarb test
 ## 🛣️ Roadmap
 
 1. **Phase 1: Proof of Concept** (Current)
-
    - ✅ Basic Schnorr signature verification in Cairo
    - ✅ Test data generation
-   - 🔄 Batch verification
+   - ✅ Batch verification
    - 🔄 STARK proof generation
 
 2. **Phase 2: Benchmarking**
-
    - Cloud cost analysis
    - Latency measurements
    - Scalability testing
