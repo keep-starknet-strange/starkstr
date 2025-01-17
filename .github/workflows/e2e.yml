@@ -1,0 +1,44 @@
+name: End-to-End Testing
+
+on: [push, pull_request]
+
+permissions: read-all
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
+
+      - name: Set up Scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.9.2"
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
+
+      - name: Install CLI dependencies
+        run: |
+          cd apps/aggsig_checker_cli
+          npm ci
+          cd ../..
+
+      - name: Build Cairo package
+        run: |
+          cd packages/aggsig_checker
+          scarb build
+          cd ../..
+
+      - name: Run end-to-end test
+        run: |
+          chmod +x scripts/verify_nostr_event_batch_signatures.sh
+          ./scripts/verify_nostr_event_batch_signatures.sh

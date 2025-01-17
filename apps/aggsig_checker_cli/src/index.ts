@@ -39,7 +39,7 @@ interface BatchEventData {
   cairoParams: CairoParams;
 }
 
-function splitToU128Pair(hexStr: string): { low: string; high: string } {
+export function splitToU128Pair(hexStr: string): { low: string; high: string } {
   // Remove '0x' prefix if present and pad to 64 characters (32 bytes)
   const paddedHex = hexStr.replace("0x", "").padStart(64, "0");
 
