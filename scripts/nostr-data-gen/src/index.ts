@@ -13,9 +13,9 @@ async function generateNostrEventData() {
 
   const event = new NDKEvent(ndk);
   event.kind = 1;
-  event.content = "Hello from Nostr!";
+  event.content = "STARK-Nostr!";
   // Hardcoded for now
-  event.created_at = 1737047299;
+  event.created_at = 1737047289;
   await event.sign();
 
   const eventData = {
