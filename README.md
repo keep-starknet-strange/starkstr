@@ -35,6 +35,7 @@ starkstr/
 ### Components
 
 1. **Nostr Event Generator** (TypeScript)
+
    - Generates sample Nostr events
    - Signs events using Schnorr signatures
    - Outputs events in JSON format
@@ -54,12 +55,14 @@ starkstr/
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/AbdelStark/starkstr.git
    cd starkstr
    ```
 
 2. Install TypeScript dependencies:
+
    ```bash
    cd scripts/nostr-data-gen
    npm install
@@ -74,11 +77,13 @@ starkstr/
 ### Usage
 
 1. Generate a sample Nostr event:
+
    ```bash
    cd scripts/nostr-data-gen
    npm run start
    cd ../..
    ```
+
    This will create a signed event in `scripts/nostr-data-gen/out/sample-signed-event.json`
 
 2. Verify the signature using Cairo:
@@ -89,6 +94,7 @@ starkstr/
 ## 🧪 Testing
 
 Run the test suite:
+
 ```bash
 scarb test
 ```
@@ -96,6 +102,7 @@ scarb test
 ## 📊 Benchmarks
 
 > Coming soon: We will be adding comprehensive benchmarks to evaluate:
+>
 > - Proof generation time
 > - Verification time
 > - Cloud costs
@@ -105,12 +112,14 @@ scarb test
 ## 🛣️ Roadmap
 
 1. **Phase 1: Proof of Concept** (Current)
+
    - ✅ Basic Schnorr signature verification in Cairo
    - ✅ Test data generation
    - 🔄 Batch verification
    - 🔄 STARK proof generation
 
 2. **Phase 2: Benchmarking**
+
    - Cloud cost analysis
    - Latency measurements
    - Scalability testing
@@ -139,4 +148,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 <p align="center">
   Made with ⚡️ by the Nostr community
 </p>
-
