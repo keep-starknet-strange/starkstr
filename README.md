@@ -15,6 +15,120 @@ Our first exploration focuses on enabling relays to strip signatures from events
 
 This work is related to [NIP PR #1682](https://github.com/nostr-protocol/nips/pull/1682), which proposes a standard for delegated signature verification.
 
+## 🔄 Architecture & Proving Pipeline
+
+STARKstr implements a complete proving pipeline for Nostr event signature verification. The system is designed to be modular and extensible, leveraging the power of STARKs to provide cryptographic guarantees.
+
+### System Architecture
+
+```mermaid
+graph TB
+    subgraph "Event Generation"
+        A[Nostr NDK] --> B[Event Signer]
+        B --> C[JSON Output]
+    end
+
+    subgraph "Cairo VM execution"
+        C --> D[CLI Parser]
+        D --> E[Cairo Program]
+        E --> F[Execution Trace]
+    end
+
+    subgraph "STARK Proof Generation"
+        F --> G[STWO Prover]
+        G --> H[STARK Proof]
+    end
+
+    subgraph "Proof Verification"
+        H --> I[STWO Verifier]
+        I --> J[Verification Result]
+    end
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#bbf,stroke:#333,stroke-width:2px
+    style G fill:#bfb,stroke:#333,stroke-width:2px
+    style I fill:#fbb,stroke:#333,stroke-width:2px
+```
+
+### Proving Pipeline Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant NDK as Nostr NDK
+    participant Cairo as Cairo Program
+    participant STWO as STWO Prover
+    participant Verifier as STWO Verifier
+
+    Client->>NDK: Generate Events
+    NDK->>NDK: Sign Events
+    NDK->>Cairo: Batch Events
+    Cairo->>Cairo: Verify Signatures
+    Cairo->>STWO: Execution Trace
+    STWO->>STWO: Generate Proof
+    STWO->>Verifier: STARK Proof
+    Verifier->>Client: Verification Result
+```
+
+### Components
+
+1. **Event Generation** (`aggsig_checker_cli`)
+
+   - Uses [Nostr NDK](https://github.com/nostr-dev-kit/ndk) for event creation
+   - Generates and signs events with Schnorr signatures
+   - Outputs events in JSON format with Cairo-compatible parameters
+
+2. **Cairo Verification** (`aggsig_checker`)
+
+   - Implements batch signature verification in Cairo
+   - Uses [Cairo VM](https://github.com/lambdaclass/cairo-vm) for execution
+   - Generates execution trace for proving
+
+3. **STARK Proof Generation**
+
+   - Uses [STWO Prover](https://github.com/starkware-libs/stwo) for proof generation
+   - Leverages [STWO Cairo AIR](https://github.com/starkware-libs/stwo-cairo/) for Cairo program proving
+   - Produces a STARK proof of the integrity of the computation (in this case, the verification of the signatures)
+
+4. **Proof Verification**
+   - STWO verifier for proof validation
+   - Can be run in browsers, Nostr clients, or any environment
+   - Provides cryptographic guarantees of signature validity of a batch of Nostr events
+
+### End-to-End Flow
+
+1. **Event Generation**:
+
+   ```bash
+   cd apps/aggsig_checker_cli
+   npm start
+   ```
+
+   Generates a batch of signed Nostr events with Cairo-compatible parameters.
+
+2. **Signature Verification**:
+
+   ```bash
+   cd packages/aggsig_checker
+   scarb cairo-run
+   ```
+
+   Verifies all signatures and generates execution trace.
+
+3. **Proof Generation**:
+
+   ```bash
+   # Coming soon: STWO integration
+   ```
+
+   Generates STARK proof from execution trace.
+
+4. **Proof Verification**:
+   ```bash
+   # Coming soon: STWO verifier integration
+   ```
+   Verifies the STARK proof.
+
 ## 🏗️ Architecture
 
 The project is structured into several components:
