@@ -6,6 +6,19 @@ edition = "2024_07"
 [dependencies]
 alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git" }
 
+[lib]
+casm = true
+
+[cairo]
+enable-gas = true
+sierra-replace-ids = true
 
 [dev-dependencies]
 cairo_test = "2.9.2"
+
+[profile.proving]
+inherits = "release"
+
+[profile.proving.cairo]
+enable-gas = false
+sierra-replace-ids = true

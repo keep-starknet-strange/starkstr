@@ -23,3 +23,5 @@ Cargo.lock
 .ai
 
 **/.DS_Store
+
+outputs

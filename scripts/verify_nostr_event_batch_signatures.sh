@@ -2,6 +2,7 @@
 
 # Generate Nostr event data
 cd apps/aggsig_checker_cli
+echo "Generating Nostr event data"
 npm run start
 cd ../..
 
@@ -47,7 +48,8 @@ CMD_ARGS="'[[${EVENTS_ARRAY}]]'"
 CMD="${CMD_PREFIX} ${CMD_ARGS}"
 
 cd packages/aggsig_checker
-echo "Running command: ${CMD}"
+#echo "Running command: ${CMD}"
+echo "Running Cairo program"
 # Run the command
 eval ${CMD}
 cd ../..
