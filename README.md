@@ -2,6 +2,15 @@
 
 > Exploring STARK proofs for enhancing Nostr's privacy, scalability, and functionality.
 
+<div align="center">
+
+<a href="https://github.com/AbdelStark/starkstr/actions/workflows/e2e.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/AbdelStark/starkstr/e2e.yml?style=for-the-badge" height=30></a>
+<a href="https://nostr.org/"> <img alt="Nostr" src="https://img.shields.io/badge/Nostr-000?style=for-the-badge" height=30></a>
+<a href="https://bitcoin.org/"> <img alt="Bitcoin" src="https://img.shields.io/badge/Bitcoin-000?style=for-the-badge&logo=bitcoin&logoColor=white" height=30></a>
+<a href="https://eprint.iacr.org/2018/046.pdf"> <img alt="Starks" src="https://img.shields.io/badge/STARKs-000?style=for-the-badge" height=30></a>
+
+</div>
+
 STARKstr is a research project exploring the potential benefits of STARK proofs for the Nostr ecosystem. It serves as a collection of proof of concepts and explorations in this direction.
 
 ## 🎯 Current Focus: Delegated Aggregate Signature Verification
