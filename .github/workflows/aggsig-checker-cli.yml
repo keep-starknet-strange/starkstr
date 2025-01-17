@@ -19,7 +19,7 @@ jobs:
           cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i
         working-directory: apps/aggsig_checker_cli
 
       - name: Run ESLint
@@ -40,7 +40,7 @@ jobs:
           cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i
         working-directory: apps/aggsig_checker_cli
 
       - name: Run TypeScript compiler
@@ -61,7 +61,7 @@ jobs:
           cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i
         working-directory: apps/aggsig_checker_cli
 
       - name: Run tests

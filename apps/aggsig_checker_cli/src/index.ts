@@ -108,7 +108,7 @@ async function generateNostrEventData(index: number): Promise<BatchEventData> {
   };
 }
 
-async function generateBatchEvents(count: number = 10) {
+async function generateBatchEvents(count = 10) {
   const events: BatchEventData[] = [];
 
   for (let i = 0; i < count; i++) {
