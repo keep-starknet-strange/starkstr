@@ -1,6 +1,6 @@
 /// Struct representing a signed Nostr event
 #[derive(Drop)]
-pub struct NostrEvent {
+pub struct NostrSignedEvent {
     /// The x-coordinate of the public key.
     pub px: u256,
     /// The x-coordinate of the R point from the signature.

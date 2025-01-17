@@ -1,9 +1,9 @@
 mod types;
 mod nostr_aggregate_signature;
 
-use types::NostrEvent;
+use types::NostrSignedEvent;
 
-fn main(events: Array<NostrEvent>) -> u32 {
+fn main(events: Array<NostrSignedEvent>) -> u32 {
     println!("Verifying {} Nostr events signatures...", events.len());
 
     nostr_aggregate_signature::verify_event_batch(events);
