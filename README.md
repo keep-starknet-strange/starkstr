@@ -37,6 +37,7 @@ starkstr/
 ### Components
 
 1. **aggsig_checker** (Cairo Package)
+
    - Core signature verification logic
    - Schnorr signature verification using BIP340
    - Batch verification support
@@ -59,12 +60,14 @@ starkstr/
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/AbdelStark/starkstr.git
    cd starkstr
    ```
 
 2. Install CLI dependencies:
+
    ```bash
    cd apps/aggsig_checker_cli
    npm install
@@ -81,6 +84,7 @@ starkstr/
 ### Usage
 
 1. Generate and verify a batch of Nostr events:
+
    ```bash
    ./scripts/verify_nostr_event_batch_signatures.sh
    ```
@@ -94,6 +98,7 @@ starkstr/
 ## 🧪 Testing
 
 Run the test suite:
+
 ```bash
 cd packages/aggsig_checker
 scarb test
@@ -102,6 +107,7 @@ scarb test
 ## 📊 Benchmarks
 
 > Coming soon: We will be adding comprehensive benchmarks to evaluate:
+>
 > - Proof generation time
 > - Verification time
 > - Cloud costs
@@ -111,12 +117,14 @@ scarb test
 ## 🛣️ Roadmap
 
 1. **Phase 1: Proof of Concept** (Current)
+
    - ✅ Basic Schnorr signature verification in Cairo
    - ✅ Test data generation
    - ✅ Batch verification
    - 🔄 STARK proof generation
 
 2. **Phase 2: Benchmarking**
+
    - Cloud cost analysis
    - Latency measurements
    - Scalability testing
@@ -143,5 +151,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <p align="center">
-  Made with ⚡️ by the Nostr community
+  Made with ❤️ by the Nostr community
 </p>

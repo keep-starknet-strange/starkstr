@@ -5,39 +5,45 @@ cd apps/aggsig_checker_cli
 npm run start
 cd ../..
 
-########################################################
-# Event 1 
-########################################################
-EVENT_1_PK_LOW=251912467096364154057891175458070492549
-EVENT_1_PK_HIGH=260939768651009451376603063044198637691
-EVENT_1_RX_LOW=77051329489827983386539320026376488593
-EVENT_1_RX_HIGH=143855497612595372087158556956488272703
-EVENT_1_S_LOW=188623336253429538540807746188656707437
-EVENT_1_S_HIGH=287350745678731217637630315430431928781
-EVENT_1_M_LOW=223834982005398908649898595952193718522
-EVENT_1_M_HIGH=280017917956868261785908066628339915890
+# Read the JSON file and extract Cairo parameters
+JSON_FILE="apps/aggsig_checker_cli/out/nostr_events_batch.json"
 
-########################################################
-# Event 2 
-########################################################
-EVENT_2_PK_LOW=251912467096364154057891175458070492549
-EVENT_2_PK_HIGH=260939768651009451376603063044198637691
-EVENT_2_RX_LOW=179254886315009293379270769450408792068
-EVENT_2_RX_HIGH=261274400144833653808376612984563005820
-EVENT_2_S_LOW=289056232521786429067368705198197915597
-EVENT_2_S_HIGH=245548899942935780949284754593020139506
-EVENT_2_M_LOW=141395620408930402826944766468329120551
-EVENT_2_M_HIGH=292629853856428677827065209285214751730
+# Function to extract values from JSON using jq
+extract_values() {
+    local index=$1
+    local param=$2
+    jq -r ".[$index].cairoParams.$param.low, .[$index].cairoParams.$param.high" "$JSON_FILE"
+}
 
-########################################################
+# Build the command arguments
+EVENTS_ARRAY=""
+NUM_EVENTS=$(jq length "$JSON_FILE")
+
+for ((i=0; i<NUM_EVENTS; i++)); do
+    # Extract values for current event
+    PK_LOW=$(extract_values $i "pk" | head -n1)
+    PK_HIGH=$(extract_values $i "pk" | tail -n1)
+    RX_LOW=$(extract_values $i "rx" | head -n1)
+    RX_HIGH=$(extract_values $i "rx" | tail -n1)
+    S_LOW=$(extract_values $i "s" | head -n1)
+    S_HIGH=$(extract_values $i "s" | tail -n1)
+    M_LOW=$(extract_values $i "m" | head -n1)
+    M_HIGH=$(extract_values $i "m" | tail -n1)
+
+    # Build event string
+    EVENT_STR="${PK_LOW}, ${PK_HIGH}, ${RX_LOW}, ${RX_HIGH}, ${S_LOW}, ${S_HIGH}, ${M_LOW}, ${M_HIGH}"
+    
+    # Add to events array
+    if [ -z "$EVENTS_ARRAY" ]; then
+        EVENTS_ARRAY="$EVENT_STR"
+    else
+        EVENTS_ARRAY="$EVENTS_ARRAY, $EVENT_STR"
+    fi
+done
+
 # Construct the command
-########################################################
-
-NOSTR_EVENT_1="${EVENT_1_PK_LOW}, ${EVENT_1_PK_HIGH}, ${EVENT_1_RX_LOW}, ${EVENT_1_RX_HIGH}, ${EVENT_1_S_LOW}, ${EVENT_1_S_HIGH}, ${EVENT_1_M_LOW}, ${EVENT_1_M_HIGH}"
-NOSTR_EVENT_2="${EVENT_2_PK_LOW}, ${EVENT_2_PK_HIGH}, ${EVENT_2_RX_LOW}, ${EVENT_2_RX_HIGH}, ${EVENT_2_S_LOW}, ${EVENT_2_S_HIGH}, ${EVENT_2_M_LOW}, ${EVENT_2_M_HIGH}"
-
 CMD_PREFIX="scarb cairo-run"
-CMD_ARGS="'[[${NOSTR_EVENT_1}, ${NOSTR_EVENT_2}]]'"
+CMD_ARGS="'[[${EVENTS_ARRAY}]]'"
 CMD="${CMD_PREFIX} ${CMD_ARGS}"
 
 cd packages/aggsig_checker
