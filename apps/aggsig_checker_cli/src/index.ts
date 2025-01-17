@@ -1,5 +1,6 @@
 import NDK, { NDKEvent, NDKPrivateKeySigner } from "@nostr-dev-kit/ndk";
 import fs from "fs";
+import { generateSecretKey } from "nostr-tools";
 
 const OUTPUT_DIR = "out";
 const OUTPUT_FILE = `${OUTPUT_DIR}/nostr_events_batch.json`;
@@ -77,8 +78,7 @@ function getCairoParams(eventData: NostrEventData): CairoParams {
 }
 
 async function generateNostrEventData(index: number): Promise<BatchEventData> {
-  const privateKey =
-    "0277cc53c89ca9c8a441987265276fafa55bf5bed8a55b16fd640e0d6a0c21e2";
+  const privateKey = generateSecretKey();
   const signer = new NDKPrivateKeySigner(privateKey);
   const ndk = new NDK({ signer });
 
