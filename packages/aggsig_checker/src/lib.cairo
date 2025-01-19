@@ -1,7 +1,7 @@
 use alexandria_math::bip340::{verify};
 
 /// Struct representing a signed Nostr event
-#[derive(Drop)]
+#[derive(Drop, Serde)]
 pub struct NostrSignedEvent {
     /// The x-coordinate of the public key.
     pub px: u256,
@@ -28,7 +28,10 @@ pub impl U256IntoByteArray of Into<u256, ByteArray> {
 // ***************************************
 // *********** MAIN ENTRYPOINT ***********
 // ***************************************
-fn main(events: Array<NostrSignedEvent>) -> u32 {
+#[executable]
+pub fn main(arguments: Array<felt252>) -> felt252 {
+    let mut args = arguments.span();
+    let events: Array<NostrSignedEvent> = Serde::deserialize(ref args).expect('failed to deserialize');
     println!("Verifying {} Nostr events signatures...", events.len());
 
     verify_event_batch(events);
