@@ -22,11 +22,14 @@ RUSTFLAGS="-C target-cpu=native -C opt-level=3" cargo install --git https://gith
 
 ### Prove
 
+Generate execution trace for a sample arguments file:
+
 ```sh
-# Compile Cairo program
-scarb build
-# Generate execution trace
-scarb execute
-# Prove with Stwo
+scarb run exec-sample
+```
+
+Run Stwo prover:
+
+```sh
 scarb run prove
 ```
