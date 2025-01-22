@@ -14,11 +14,23 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.9.2"
+          scarb-version: "nightly"
 
       - name: Check cairo format
         run: scarb fmt --check
         working-directory: packages/aggsig_checker
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install patched Scarb
+        run: cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb
 
       - name: Build cairo onchain
         run: scarb build
@@ -33,7 +45,7 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.9.2"
+          scarb-version: "nightly"
 
       - name: Run tests and generate report
         run: scarb test

@@ -18,10 +18,11 @@ jobs:
           cache: "npm"
           cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
 
-      - name: Set up Scarb
-        uses: software-mansion/setup-scarb@v1
-        with:
-          scarb-version: "2.9.2"
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install patched Scarb
+        run: cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb
 
       - name: Install jq
         run: sudo apt-get install -y jq

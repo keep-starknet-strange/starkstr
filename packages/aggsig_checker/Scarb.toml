@@ -5,20 +5,23 @@ edition = "2024_07"
 
 [dependencies]
 alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git" }
+cairo_execute = "2.9.2"
+
+[executable]
 
 [lib]
 casm = true
-
-[cairo]
-enable-gas = true
-sierra-replace-ids = true
-
-[dev-dependencies]
-cairo_test = "2.9.2"
 
 [profile.proving]
 inherits = "release"
 
 [profile.proving.cairo]
 enable-gas = false
-sierra-replace-ids = true
+
+[dev-dependencies]
+cairo_test = "2.9.2"
+
+[scripts]
+exec-sample = "rm -rf target/execute && scarb --profile proving execute --arguments-file tests/data/sample_exec.json"
+prove = "adapted_stwo --priv_json target/execute/aggsig_checker/air_private_input.json --pub_json target/execute/aggsig_checker/air_public_input.json --proof_path target/proof.json"
+sample = "scarb cairo-run --arguments-file tests/data/sample.json --print-resource-usage"
