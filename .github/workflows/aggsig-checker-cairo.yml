@@ -30,7 +30,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install patched Scarb
-        run: cargo install --git https://github.com/m-kus/scarb --rev 52333082349b6991c8a21517fa2d4c27f9d82ab6 scarb
+        run: cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb
 
       - name: Build cairo onchain
         run: scarb build
