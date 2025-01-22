@@ -21,7 +21,7 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.10.0-rc.1"
+          scarb-version: "nightly"
 
       - name: Install jq
         run: sudo apt-get install -y jq

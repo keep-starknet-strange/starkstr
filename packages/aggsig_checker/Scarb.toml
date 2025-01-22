@@ -5,7 +5,7 @@ edition = "2024_07"
 
 [dependencies]
 alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git" }
-cairo_execute = "2.9.0"
+cairo_execute = "2.9.2"
 
 [executable]
 
