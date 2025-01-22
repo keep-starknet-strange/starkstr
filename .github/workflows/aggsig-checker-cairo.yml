@@ -20,6 +20,18 @@ jobs:
         run: scarb fmt --check
         working-directory: packages/aggsig_checker
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install patched Scarb
+        run: cargo install --git https://github.com/m-kus/scarb --rev 52333082349b6991c8a21517fa2d4c27f9d82ab6 scarb
+
       - name: Build cairo onchain
         run: scarb build
         working-directory: packages/aggsig_checker
