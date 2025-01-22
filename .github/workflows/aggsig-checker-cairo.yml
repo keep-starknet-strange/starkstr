@@ -14,7 +14,7 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.9.2"
+          scarb-version: "2.10.0-rc.1"
 
       - name: Check cairo format
         run: scarb fmt --check
@@ -33,7 +33,7 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.9.2"
+          scarb-version: "2.10.0-rc.1"
 
       - name: Run tests and generate report
         run: scarb test

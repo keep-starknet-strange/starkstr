@@ -1,4 +1,4 @@
-use alexandria_math::bip340::{verify};
+use alexandria_math::bip340::verify;
 
 /// Struct representing a signed Nostr event
 #[derive(Drop, Serde)]
@@ -31,7 +31,8 @@ pub impl U256IntoByteArray of Into<u256, ByteArray> {
 #[executable]
 pub fn main(arguments: Array<felt252>) -> felt252 {
     let mut args = arguments.span();
-    let events: Array<NostrSignedEvent> = Serde::deserialize(ref args).expect('failed to deserialize');
+    let events: Array<NostrSignedEvent> = Serde::deserialize(ref args)
+        .expect('failed to deserialize');
     println!("Verifying {} Nostr events signatures...", events.len());
 
     verify_event_batch(events);
