@@ -7,7 +7,7 @@
 We will need a specific Cairo toolchain version:
 
 ```
-cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb scarb-execute scarb-cairo-test
+cargo install --git https://github.com/m-kus/scarb --rev 2b2e7c1ab558f022ef69ef0e1d9ccaac6cebb8fc scarb scarb-execute scarb-cairo-test scarb-cairo-run scarb-cairo-language-server
 ```
 
 Make sure it doesn't conflict with the existing Scarb installation.
