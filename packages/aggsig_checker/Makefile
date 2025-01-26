@@ -1,12 +1,18 @@
-install:
+install-scarb:
 	cargo install \
 		--git https://github.com/m-kus/scarb \
 		--rev 2b2e7c1ab558f022ef69ef0e1d9ccaac6cebb8fc \
-		scarb scarb-execute scarb-cairo-test scarb-cairo-run scarb-cairo-language-server
+		scarb scarb-execute scarb-cairo-test scarb-cairo-run
+
+install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
 		cargo install \
 		--git https://github.com/starkware-libs/stwo-cairo \
 		adapted_stwo
+
+install:
+	$(MAKE) install-scarb
+	$(MAKE) install-stwo
 
 execute:
 	rm -rf target/execute \

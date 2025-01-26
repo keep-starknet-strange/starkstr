@@ -21,13 +21,23 @@ jobs:
           cache: "npm"
           cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
 
-      - name: Setup Rust
+      - name: Setup Rust stable
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Scarb and Stwo
+      - name: Setup Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Install Scarb
         run: |
+          rustup default stable
           cd packages/aggsig_checker
-          make install
+          make install-scarb
+
+      - name: Install Stwo
+        run: |
+          rustup default nightly
+          cd packages/aggsig_checker
+          make install-stwo
 
       - name: Install jq
         run: sudo apt-get install -y jq

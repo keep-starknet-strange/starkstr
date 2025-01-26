@@ -1,6 +1,9 @@
 name: AggSig Checker Cairo
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
 
 permissions: read-all
 
@@ -29,8 +32,10 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install patched Scarb
-        run: cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb
+      - name: Install Scarb
+        run: |
+          cd packages/aggsig_checker
+          make install-scarb
 
       - name: Build cairo onchain
         run: scarb build

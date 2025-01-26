@@ -7,7 +7,7 @@
 We will need a specific Cairo toolchain version:
 
 ```
-cargo install --git https://github.com/m-kus/scarb --rev 2b2e7c1ab558f022ef69ef0e1d9ccaac6cebb8fc scarb scarb-execute scarb-cairo-test scarb-cairo-run scarb-cairo-language-server
+make install-scarb
 ```
 
 Make sure it doesn't conflict with the existing Scarb installation.
@@ -17,7 +17,7 @@ Make sure it doesn't conflict with the existing Scarb installation.
 Make sure you have the latest Rust nightly toolchain installed.
 
 ```sh
-RUSTFLAGS="-C target-cpu=native -C opt-level=3" cargo install --git https://github.com/starkware-libs/stwo-cairo adapted_stwo
+make install-stwo
 ```
 
 ### Prove
