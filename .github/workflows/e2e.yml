@@ -21,8 +21,10 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install patched Scarb
-        run: cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb
+      - name: Install Scarb and Stwo
+        run: |
+          cd packages/aggsig_checker
+          make install
 
       - name: Install jq
         run: sudo apt-get install -y jq
@@ -31,12 +33,6 @@ jobs:
         run: |
           cd apps/aggsig_checker_cli
           npm i
-          cd ../..
-
-      - name: Build Cairo package
-        run: |
-          cd packages/aggsig_checker
-          scarb build
           cd ../..
 
       - name: Run end-to-end test

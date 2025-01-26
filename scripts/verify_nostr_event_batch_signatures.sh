@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Function to convert decimal to hexadecimal using bc
+to_hex() {
+    echo "\"0x$(echo "obase=16; $1" | bc)\""
+}
+
 # Generate Nostr event data
 cd apps/aggsig_checker_cli
 echo "Generating Nostr event data"
@@ -31,6 +36,16 @@ for ((i=0; i<NUM_EVENTS; i++)); do
     M_LOW=$(extract_values $i "m" | head -n1)
     M_HIGH=$(extract_values $i "m" | tail -n1)
 
+    # Convert each value to hexadecimal string using bc
+    PK_LOW=$(to_hex $PK_LOW)
+    PK_HIGH=$(to_hex $PK_HIGH)
+    RX_LOW=$(to_hex $RX_LOW)
+    RX_HIGH=$(to_hex $RX_HIGH)
+    S_LOW=$(to_hex $S_LOW)
+    S_HIGH=$(to_hex $S_HIGH)
+    M_LOW=$(to_hex $M_LOW)
+    M_HIGH=$(to_hex $M_HIGH)
+
     # Build event string
     EVENT_STR="${PK_LOW}, ${PK_HIGH}, ${RX_LOW}, ${RX_HIGH}, ${S_LOW}, ${S_HIGH}, ${M_LOW}, ${M_HIGH}"
     
@@ -42,14 +57,23 @@ for ((i=0; i<NUM_EVENTS; i++)); do
     fi
 done
 
-# Construct the command
-CMD_PREFIX="scarb cairo-run"
-CMD_ARGS="'[[${EVENTS_ARRAY}]]'"
-CMD="${CMD_PREFIX} ${CMD_ARGS}"
+ARRAY_LEN=$((NUM_EVENTS*8+1))
+ARRAY_LEN_HEX=$(to_hex $ARRAY_LEN)
+NUM_EVENTS_HEX=$(to_hex $NUM_EVENTS)
+EXECUTE_ARGS="[${ARRAY_LEN_HEX}, ${NUM_EVENTS_HEX}, $EVENTS_ARRAY]"
 
 cd packages/aggsig_checker
-#echo "Running command: ${CMD}"
-echo "Running Cairo program"
-# Run the command
-eval ${CMD}
+
+echo "Cleaning up previous execution..."
+rm -rf target/execute || true
+mkdir -p target/execute
+
+echo "Writing arguments to file..."
+echo "$EXECUTE_ARGS" > target/execute/args.json
+
+echo "Producing execution trace..."
+scarb --profile proving execute --print-program-output --arguments-file target/execute/args.json
+
+echo "Generating proof and verifying it..."
+make prove
 cd ../..

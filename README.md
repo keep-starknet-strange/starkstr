@@ -119,7 +119,7 @@ sequenceDiagram
 
    ```bash
    cd packages/aggsig_checker
-   scarb cairo-run
+   make execute
    ```
 
    Verifies all signatures and generates execution trace.
@@ -127,7 +127,8 @@ sequenceDiagram
 3. **Proof Generation**:
 
    ```bash
-   # Coming soon: STWO integration
+   # in packages/aggsig_checker
+   make prove
    ```
 
    Generates STARK proof from execution trace.
@@ -136,6 +137,7 @@ sequenceDiagram
    ```bash
    # Coming soon: STWO verifier integration
    ```
+   
    Verifies the STARK proof.
 
 ## 🏗️ Architecture
@@ -197,9 +199,17 @@ starkstr/
    cd ../..
    ```
 
-3. Build the Cairo package:
+3. Install Scarb toolchain and Stwo prover
+
+   Make sure you have nightly Rust and no previous Scarb installation.
+
    ```bash
    cd packages/aggsig_checker
+   make install
+   ```
+
+4. Build the Cairo package:
+   ```bash
    scarb build
    cd ../..
    ```

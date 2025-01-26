@@ -25,11 +25,13 @@ RUSTFLAGS="-C target-cpu=native -C opt-level=3" cargo install --git https://gith
 Generate execution trace for a sample arguments file:
 
 ```sh
-scarb run exec-sample
+make execute
 ```
 
 Run Stwo prover:
 
 ```sh
-scarb run prove
+make prove
 ```
+
+The command will generate a proof and verify it locally.

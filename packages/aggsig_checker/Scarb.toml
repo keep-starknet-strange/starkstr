@@ -20,8 +20,3 @@ enable-gas = false
 
 [dev-dependencies]
 cairo_test = "2.9.2"
-
-[scripts]
-exec-sample = "rm -rf target/execute && scarb --profile proving execute --arguments-file tests/data/sample_exec.json --print-program-output"
-prove = "adapted_stwo --priv_json target/execute/aggsig_checker/air_private_input.json --pub_json target/execute/aggsig_checker/air_public_input.json --proof_path target/proof.json"
-sample = "scarb cairo-run --arguments-file tests/data/sample.json --print-resource-usage"
