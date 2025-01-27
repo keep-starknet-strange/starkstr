@@ -1,6 +1,9 @@
 name: End-to-End Testing
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
 
 permissions: read-all
 
@@ -18,11 +21,23 @@ jobs:
           cache: "npm"
           cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
 
-      - name: Setup Rust
+      - name: Setup Rust stable
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install patched Scarb
-        run: cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb
+      - name: Setup Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Install Scarb
+        run: |
+          rustup default stable
+          cd packages/aggsig_checker
+          make install-scarb
+
+      - name: Install Stwo
+        run: |
+          rustup default nightly
+          cd packages/aggsig_checker
+          make install-stwo
 
       - name: Install jq
         run: sudo apt-get install -y jq
@@ -31,12 +46,6 @@ jobs:
         run: |
           cd apps/aggsig_checker_cli
           npm i
-          cd ../..
-
-      - name: Build Cairo package
-        run: |
-          cd packages/aggsig_checker
-          scarb build
           cd ../..
 
       - name: Run end-to-end test

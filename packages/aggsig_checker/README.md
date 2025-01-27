@@ -7,7 +7,7 @@
 We will need a specific Cairo toolchain version:
 
 ```
-cargo install --git https://github.com/m-kus/scarb --rev 0cb033ba37ed2809eeac59baa169da6c769a241b scarb
+make install-scarb
 ```
 
 Make sure it doesn't conflict with the existing Scarb installation.
@@ -17,7 +17,7 @@ Make sure it doesn't conflict with the existing Scarb installation.
 Make sure you have the latest Rust nightly toolchain installed.
 
 ```sh
-RUSTFLAGS="-C target-cpu=native -C opt-level=3" cargo install --git https://github.com/starkware-libs/stwo-cairo adapted_stwo
+make install-stwo
 ```
 
 ### Prove
@@ -25,11 +25,13 @@ RUSTFLAGS="-C target-cpu=native -C opt-level=3" cargo install --git https://gith
 Generate execution trace for a sample arguments file:
 
 ```sh
-scarb run exec-sample
+make execute
 ```
 
 Run Stwo prover:
 
 ```sh
-scarb run prove
+make prove
 ```
+
+The command will generate a proof and verify it locally.
