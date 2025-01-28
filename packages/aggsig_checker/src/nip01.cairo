@@ -16,6 +16,8 @@ const TWO_POW_96: u128 = 0x1000000000000000000000000;
 /// * `u256` - `sha256(tag) || sha256(tag) || bytes(rx) || bytes(px) || m` as u256
 ///    where tag = "BIP0340/challenge".
 pub fn hash_challenge(rx: u256, px: u256, m: u256) -> u256 {
+    println!("m: {m}");
+
     let mut input: Array<u32> = array![
         // sha256(tag)
         0x7bb52d7a,
@@ -49,15 +51,7 @@ fn append_u128(ref out: Array<u32>, val: u128) {
     let (q0, r0) = DivRem::div_rem(val, 0x100000000);
     let (q1, r1) = DivRem::div_rem(q0, 0x100000000);
     let (q2, r2) = DivRem::div_rem(q1, 0x100000000);
-    let (q3, r3) = DivRem::div_rem(q2, 0x100000000);
-    let (q4, r4) = DivRem::div_rem(q3, 0x100000000);
-    let (q5, r5) = DivRem::div_rem(q4, 0x100000000);
-    let (q6, r6) = DivRem::div_rem(q5, 0x100000000);
-    out.append(q6.try_into().unwrap());
-    out.append(r6.try_into().unwrap());
-    out.append(r5.try_into().unwrap());
-    out.append(r4.try_into().unwrap());
-    out.append(r3.try_into().unwrap());
+    out.append(q2.try_into().unwrap());
     out.append(r2.try_into().unwrap());
     out.append(r1.try_into().unwrap());
     out.append(r0.try_into().unwrap());
@@ -71,13 +65,7 @@ fn append_u256(ref out: Array<u32>, val: u256) {
 fn u256_from_array(arr: [u32; 8]) -> u256 {
     let [a0, a1, a2, a3, a4, a5, a6, a7] = arr;
     u256 {
-        high: a0.into() * TWO_POW_96
-            + a1.into()  * TWO_POW_64
-            + a2.into() * TWO_POW_32
-            + a3.into(),
-        low: a4.into() * TWO_POW_96
-            + a5.into() * TWO_POW_64
-            + a6.into() * TWO_POW_32
-            + a7.into(),
+        high: a0.into() * TWO_POW_96 + a1.into() * TWO_POW_64 + a2.into() * TWO_POW_32 + a3.into(),
+        low: a4.into() * TWO_POW_96 + a5.into() * TWO_POW_64 + a6.into() * TWO_POW_32 + a7.into(),
     }
 }

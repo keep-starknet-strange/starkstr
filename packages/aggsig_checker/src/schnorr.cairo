@@ -44,6 +44,12 @@ pub fn verify_schnorr(
     msm_hint: MSMHint,
     msm_derive_hint: DerivePointFromXHint,
 ) {
+    println!("rx: {rx}");
+    println!("s: {s}");
+    println!("e: {e}");
+    println!("px: {px}");
+    println!("py: {py}");
+
     assert(rx < SECP256K1.n, '');
     assert(rx != 0, '');
 

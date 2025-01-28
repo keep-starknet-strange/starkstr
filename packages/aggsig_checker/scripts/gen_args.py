@@ -25,7 +25,7 @@ def to_u256(value: int) -> list[int]:
 
 
 def hash_challenge(rx: int, px: int, msg: int) -> int:
-    tagged_hash = sha256(b"BIP0340/challenge").digest()
+    tagged_hash = sha256("BIP0340/challenge".encode()).digest()
     input = tagged_hash + tagged_hash + rx.to_bytes(32, "big") + px.to_bytes(32, "big") + msg.to_bytes(32, "big")
     return int.from_bytes(sha256(input).digest(), "big")
 
@@ -85,8 +85,15 @@ def handle_event(event: dict) -> dict:
     msg = int.from_bytes(bytes.fromhex(event["nostr_event"]["id"]), "big")
     
     n = CURVES[CurveID.SECP256K1.value].n
-    e = hash_challenge(rx, px, msg)
+    e = hash_challenge(rx, px, msg) % n
     e_neg = -e % n
+
+    print(f"m: {msg}", file=sys.stderr)
+    print(f"rx: {rx}", file=sys.stderr)
+    print(f"s: {s}", file=sys.stderr)
+    print(f"e: {e}", file=sys.stderr)
+    print(f"px: {px}", file=sys.stderr)
+    print(f"py: {py}", file=sys.stderr)
 
     msm_hint = gen_msm_hint(generator_point, pk_point, s, e_neg)
 

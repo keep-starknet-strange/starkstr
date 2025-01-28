@@ -3,6 +3,7 @@ mod schnorr;
 mod sha256;
 
 use garaga::ec_ops::{DerivePointFromXHint, MSMHint};
+use garaga::definitions::SECP256K1;
 use schnorr::verify_schnorr;
 use nip01::hash_challenge;
 
@@ -45,7 +46,7 @@ pub fn main(arguments: Array<felt252>) {
 /// Fails if any of the signatures are invalid
 pub fn verify_event_batch(events: Array<NostrSignedEvent>) {
     for event in events {
-        let e = hash_challenge(event.rx, event.px, event.m);
+        let e = hash_challenge(event.rx, event.px, event.m) % SECP256K1.n;
         verify_schnorr(
             event.rx, event.s, e, event.px, event.py, event.msm_hint, event.msm_derive_hint,
         );
