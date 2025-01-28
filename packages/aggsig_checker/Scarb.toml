@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2024_07"
 
 [dependencies]
-alexandria_math = { git = "https://github.com/keep-starknet-strange/alexandria.git" }
-cairo_execute = "2.9.2"
+garaga = { git = "https://github.com/m-kus/garaga", rev = "65db99b8ba9ff19e7f19609cd06f8220d8406881" }
+cairo_execute = "2.10.0-rc.1"
 
 [executable]
 
@@ -19,4 +19,4 @@ inherits = "release"
 enable-gas = false
 
 [dev-dependencies]
-cairo_test = "2.9.2"
+cairo_test = "2.10.0-rc.1"

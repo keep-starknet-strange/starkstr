@@ -5,10 +5,10 @@ version = 1
 name = "aggsig_checker"
 version = "0.1.0"
 dependencies = [
- "alexandria_math",
+ "garaga",
 ]
 
 [[package]]
-name = "alexandria_math"
-version = "0.2.1"
-source = "git+https://github.com/keep-starknet-strange/alexandria.git#162bed1c636d31ccaaa90ed3eb32c9eb1d5e3bd3"
+name = "garaga"
+version = "0.15.3"
+source = "git+https://github.com/m-kus/garaga?rev=65db99b8ba9ff19e7f19609cd06f8220d8406881#65db99b8ba9ff19e7f19609cd06f8220d8406881"
