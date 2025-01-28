@@ -1,6 +1,6 @@
 <div align="center">
 
-<a href="https://github.com/AbdelStark/starkstr/actions/workflows/e2e.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/AbdelStark/starkstr/e2e.yml?style=for-the-badge" height=30></a>
+<a href="https://github.com/keep-starknet-strange/starkstr/actions/workflows/e2e.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/keep-starknet-strange/starkstr/e2e.yml?style=for-the-badge" height=30></a>
 <a href="https://nostr.org/"> <img alt="Nostr" src="https://img.shields.io/badge/Nostr-000?style=for-the-badge" height=30></a>
 <a href="https://bitcoin.org/"> <img alt="Bitcoin" src="https://img.shields.io/badge/Bitcoin-000?style=for-the-badge&logo=bitcoin&logoColor=white" height=30></a>
 <a href="https://eprint.iacr.org/2018/046.pdf"> <img alt="Starks" src="https://img.shields.io/badge/STARKs-000?style=for-the-badge" height=30></a>
@@ -134,10 +134,11 @@ sequenceDiagram
    Generates STARK proof from execution trace.
 
 4. **Proof Verification**:
+
    ```bash
    # Coming soon: STWO verifier integration
    ```
-   
+
    Verifies the STARK proof.
 
 ## 🏗️ Architecture
@@ -187,7 +188,7 @@ starkstr/
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/AbdelStark/starkstr.git
+   git clone https://github.com/keep-starknet-strange/starkstr.git
    cd starkstr
    ```
 
