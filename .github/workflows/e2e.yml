@@ -3,7 +3,7 @@ name: End-to-End Testing
 on:
   push:
     branches: [ main ]
-  #pull_request:
+  pull_request:
 
 permissions: read-all
 
@@ -29,22 +29,13 @@ jobs:
         with:
           scarb-version: "2.10.0-rc.1"
 
-      - name: Install Stwo
+      - name: Install Stwo and other dependencies
         run: |
           rustup default nightly
           cd packages/aggsig_checker
-          make install-stwo
-
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
-      - name: Install CLI dependencies
-        run: |
-          cd apps/aggsig_checker_cli
-          npm i
-          cd ../..
+          make install
 
       - name: Run end-to-end test
         run: |
-          chmod +x scripts/verify_nostr_event_batch_signatures.sh
-          ./scripts/verify_nostr_event_batch_signatures.sh
+          cd packages/aggsig_checker
+          make e2e

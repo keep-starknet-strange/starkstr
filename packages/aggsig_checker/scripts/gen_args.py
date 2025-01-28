@@ -88,12 +88,12 @@ def handle_event(event: dict) -> dict:
     e = hash_challenge(rx, px, msg) % n
     e_neg = -e % n
 
-    print(f"m: {msg}", file=sys.stderr)
-    print(f"rx: {rx}", file=sys.stderr)
-    print(f"s: {s}", file=sys.stderr)
-    print(f"e: {e}", file=sys.stderr)
-    print(f"px: {px}", file=sys.stderr)
-    print(f"py: {py}", file=sys.stderr)
+    # print(f"m: {msg}", file=sys.stderr)
+    # print(f"rx: {rx}", file=sys.stderr)
+    # print(f"s: {s}", file=sys.stderr)
+    # print(f"e: {e}", file=sys.stderr)
+    # print(f"px: {px}", file=sys.stderr)
+    # print(f"py: {py}", file=sys.stderr)
 
     msm_hint = gen_msm_hint(generator_point, pk_point, s, e_neg)
 

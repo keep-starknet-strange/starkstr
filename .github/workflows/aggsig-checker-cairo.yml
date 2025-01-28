@@ -17,7 +17,7 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "nightly"
+          scarb-version: "2.10.0-rc.1"
 
       - name: Check cairo format
         run: scarb fmt --check
@@ -37,8 +37,8 @@ jobs:
         with:
           scarb-version: "2.10.0-rc.1"
 
-      - name: Build cairo onchain
-        run: scarb build
+      - name: Build project for proving
+        run: scarb --profile proving build
         working-directory: packages/aggsig_checker
 
   test:
@@ -52,6 +52,6 @@ jobs:
         with:
           scarb-version: "2.10.0-rc.1"
 
-      - name: Run tests and generate report
+      - name: Run tests
         run: scarb test
         working-directory: packages/aggsig_checker

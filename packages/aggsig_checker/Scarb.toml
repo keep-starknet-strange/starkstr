@@ -20,3 +20,6 @@ enable-gas = false
 
 [dev-dependencies]
 cairo_test = "2.10.0-rc.1"
+
+[scripts]
+test = "scarb cairo-test && scarb cairo-run --arguments-file tests/data/sample.json"
