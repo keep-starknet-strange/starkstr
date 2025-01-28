@@ -11,17 +11,19 @@ install:
 	$(MAKE) install-stwo
 	$(MAKE) install-requirements
 
-sample:
-	python scripts/gen_events.py 10 > target/events.json
-	python scripts/gen_args.py --file target/events.json --target cairo-run > tests/data/sample.json
-	python scripts/gen_args.py --file target/events.json --target execute > tests/data/sample_exec.json
+events:
+	python scripts/gen_events.py 10 > tests/data/sample_events.json
+
+args:
+	python scripts/gen_args.py --file tests/data/sample_events.json --target cairo-run > tests/data/sample_args.json
+	python scripts/gen_args.py --file tests/data/sample_events.json --target execute > tests/data/sample_exec_args.json
 
 execute:
 	rm -rf target/execute \
-		&& scarb --profile proving execute --arguments-file tests/data/sample_exec.json --print-program-output
+		&& scarb --profile proving execute --arguments-file tests/data/sample_exec_args.json --print-program-output
 
 run:
-	scarb cairo-run --arguments-file tests/data/sample.json --print-resource-usage
+	scarb cairo-run --arguments-file tests/data/sample_args.json --print-resource-usage
 
 prove:
 	adapted_stwo \
@@ -31,6 +33,7 @@ prove:
 		--verify
 
 e2e:
-	$(MAKE) sample
+	$(MAKE) events
+	$(MAKE) args
 	$(MAKE) execute
 	$(MAKE) prove
