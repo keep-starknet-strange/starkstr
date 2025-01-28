@@ -3,7 +3,7 @@ name: End-to-End Testing
 on:
   push:
     branches: [ main ]
-  pull_request:
+  #pull_request:
 
 permissions: read-all
 
@@ -21,17 +21,13 @@ jobs:
           cache: "npm"
           cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
 
-      - name: Setup Rust stable
-        uses: dtolnay/rust-toolchain@stable
-
       - name: Setup Rust nightly
         uses: dtolnay/rust-toolchain@nightly
 
       - name: Install Scarb
-        run: |
-          rustup default stable
-          cd packages/aggsig_checker
-          make install-scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.10.0-rc.1"
 
       - name: Install Stwo
         run: |

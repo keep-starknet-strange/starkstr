@@ -33,9 +33,9 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install Scarb
-        run: |
-          cd packages/aggsig_checker
-          make install-scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.10.0-rc.1"
 
       - name: Build cairo onchain
         run: scarb build
@@ -47,10 +47,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@main
 
-      - name: Set up Scarb
+      - name: Install Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "nightly"
+          scarb-version: "2.10.0-rc.1"
 
       - name: Run tests and generate report
         run: scarb test
