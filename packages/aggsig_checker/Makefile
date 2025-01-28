@@ -10,9 +10,19 @@ install-stwo:
 		--git https://github.com/starkware-libs/stwo-cairo \
 		adapted_stwo
 
+
+install-requirements:
+	pip install -r scripts/requirements.txt
+
 install:
 	$(MAKE) install-scarb
 	$(MAKE) install-stwo
+	$(MAKE) install-requirements
+
+sample:
+	python scripts/gen_events.py 1 > target/events.json
+	python scripts/gen_args.py --file target/events.json --target cairo-run > tests/data/sample.json
+	python scripts/gen_args.py --file target/events.json --target execute > tests/data/sample_exec.json
 
 execute:
 	rm -rf target/execute \

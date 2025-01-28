@@ -46,13 +46,14 @@ pub fn hash_challenge(rx: u256, px: u256, m: u256) -> u256 {
 }
 
 fn append_u128(ref out: Array<u32>, val: u128) {
-    let (q6, r6) = DivRem::div_rem(val, 0x100000000);
-    let (q5, r5) = DivRem::div_rem(q6, 0x100000000);
-    let (q4, r4) = DivRem::div_rem(q5, 0x100000000);
-    let (q3, r3) = DivRem::div_rem(q4, 0x100000000);
-    let (q2, r2) = DivRem::div_rem(q3, 0x100000000);
-    let (q1, r1) = DivRem::div_rem(q2, 0x100000000);
-    let (q0, r0) = DivRem::div_rem(q1, 0x100000000);
+    let (q0, r0) = DivRem::div_rem(val, 0x100000000);
+    let (q1, r1) = DivRem::div_rem(q0, 0x100000000);
+    let (q2, r2) = DivRem::div_rem(q1, 0x100000000);
+    let (q3, r3) = DivRem::div_rem(q2, 0x100000000);
+    let (q4, r4) = DivRem::div_rem(q3, 0x100000000);
+    let (q5, r5) = DivRem::div_rem(q4, 0x100000000);
+    let (q6, r6) = DivRem::div_rem(q5, 0x100000000);
+    out.append(q6.try_into().unwrap());
     out.append(r6.try_into().unwrap());
     out.append(r5.try_into().unwrap());
     out.append(r4.try_into().unwrap());
@@ -60,7 +61,6 @@ fn append_u128(ref out: Array<u32>, val: u128) {
     out.append(r2.try_into().unwrap());
     out.append(r1.try_into().unwrap());
     out.append(r0.try_into().unwrap());
-    out.append(q0.try_into().unwrap());
 }
 
 fn append_u256(ref out: Array<u32>, val: u256) {
