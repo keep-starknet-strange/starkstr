@@ -17,10 +17,9 @@ STARKstr is a research project exploring the potential benefits of STARK proofs 
 
 Our first exploration focuses on enabling relays to strip signatures from events and provide STARK proofs that those signatures were valid. This approach offers several benefits:
 
-- **Enhanced Privacy**: Signatures are not revealed, providing deniability
-- **Reduced Bandwidth**: Events can be transmitted without signatures
-- **Batch Verification**: Multiple signatures can be verified in a single proof
-- **Trust Minimization**: Clients can verify the proof instead of trusting the relay
+- **Reduced Bandwidth**: Events can be transmitted and archived without signatures
+- **Batch Verification**: Authenticity of multiple events can be verified with a single proof
+- **Trust Minimization**: Clients can verify one proof instead of trusting the relay or validating a lot of signatures
 
 This work is related to [NIP PR #1682](https://github.com/nostr-protocol/nips/pull/1682), which proposes a standard for delegated signature verification.
 
@@ -81,15 +80,16 @@ sequenceDiagram
 
 ### Components
 
-1. **Event Generation** (`aggsig_checker_cli`)
+1. **Nostr Event Generation**
 
-   - Uses [Nostr NDK](https://github.com/nostr-dev-kit/ndk) for event creation
+   - Uses [Nostr SDK](https://github.com/jeffthibault/python-nostr) for event creation
    - Generates and signs events with Schnorr signatures
-   - Outputs events in JSON format with Cairo-compatible parameters
+   - Outputs events in JSON format
+   - Extends and encodes event data into Cairo program arguments
 
-2. **Cairo Verification** (`aggsig_checker`)
+2. **Batch Signature Verification**
 
-   - Implements batch signature verification in Cairo
+   - Implements verification of multiple Schnorr signatures in Cairo
    - Uses [Cairo VM](https://github.com/lambdaclass/cairo-vm) for execution
    - Generates execution trace for proving
 
@@ -104,139 +104,9 @@ sequenceDiagram
    - Can be run in browsers, Nostr clients, or any environment
    - Provides cryptographic guarantees of signature validity of a batch of Nostr events
 
-### End-to-End Flow
-
-1. **Event Generation**:
-
-   ```bash
-   cd apps/aggsig_checker_cli
-   npm start
-   ```
-
-   Generates a batch of signed Nostr events with Cairo-compatible parameters.
-
-2. **Signature Verification**:
-
-   ```bash
-   cd packages/aggsig_checker
-   make execute
-   ```
-
-   Verifies all signatures and generates execution trace.
-
-3. **Proof Generation**:
-
-   ```bash
-   # in packages/aggsig_checker
-   make prove
-   ```
-
-   Generates STARK proof from execution trace.
-
-4. **Proof Verification**:
-
-   ```bash
-   # Coming soon: STWO verifier integration
-   ```
-
-   Verifies the STARK proof.
-
-## 🏗️ Architecture
-
-The project is structured into several components:
-
-```
-starkstr/
-├── packages/                # Core packages
-│   └── aggsig_checker/     # Cairo package for signature verification
-│       ├── src/            # Cairo source code
-│       └── Scarb.toml      # Package manifest
-├── apps/                   # Applications
-│   └── aggsig_checker_cli/ # CLI tool for signature verification
-│       ├── src/            # TypeScript source code
-│       └── package.json    # Package manifest
-├── scripts/                # Helper scripts
-│   └── verify_nostr_event_batch_signatures.sh  # Batch verification script
-└── tests/                  # Test suite
-```
-
-### Components
-
-1. **aggsig_checker** (Cairo Package)
-
-   - Core signature verification logic
-   - Schnorr signature verification using BIP340
-   - Batch verification support
-   - STARK proof generation (coming soon)
-
-2. **aggsig_checker_cli** (TypeScript)
-   - Command-line interface for signature verification
-   - Generates sample Nostr events
-   - Signs events using Schnorr signatures
-   - Outputs events in JSON format
-   - Converts hex values to Cairo-compatible format
-
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- [Scarb](https://docs.swmansion.com/scarb/download.html) - Cairo package manager
-- [Node.js](https://nodejs.org/) (v16 or later)
-
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/keep-starknet-strange/starkstr.git
-   cd starkstr
-   ```
-
-2. Install CLI dependencies:
-
-   ```bash
-   cd apps/aggsig_checker_cli
-   npm install
-   cd ../..
-   ```
-
-3. Install Scarb toolchain and Stwo prover
-
-   Make sure you have nightly Rust and no previous Scarb installation.
-
-   ```bash
-   cd packages/aggsig_checker
-   make install
-   ```
-
-4. Build the Cairo package:
-   ```bash
-   scarb build
-   cd ../..
-   ```
-
-### Usage
-
-1. Generate and verify a batch of Nostr events:
-
-   ```bash
-   ./scripts/verify_nostr_event_batch_signatures.sh
-   ```
-
-2. Run the CLI tool directly:
-   ```bash
-   cd apps/aggsig_checker_cli
-   npm start
-   ```
-
-## 🧪 Testing
-
-Run the test suite:
-
-```bash
-cd packages/aggsig_checker
-scarb test
-```
+Check out [aggsig_checker](packages/aggsig_checker/README.md) docs for the step-by-step usage guide.
 
 ## 📊 Benchmarks
 
@@ -244,26 +114,27 @@ scarb test
 >
 > - Proof generation time
 > - Verification time
-> - Cloud costs
 > - Memory usage
 > - Network overhead
+> - Cloud costs
 
 ## 🛣️ Roadmap
 
-1. **Phase 1: Proof of Concept** (Current)
+1. **Phase 1: Proof of Concept**
 
    - ✅ Basic Schnorr signature verification in Cairo
    - ✅ Test data generation
    - ✅ Batch verification
-   - 🔄 STARK proof generation
+   - ✅ STARK proof generation
 
-2. **Phase 2: Benchmarking**
+2. **Phase 2: Benchmarking** (Current)
 
-   - Cloud cost analysis
-   - Latency measurements
-   - Scalability testing
+   - 🔄 Proof generation time depending on the number of events
+   - Proof verification time vs total time of signature verification
+   - Proof size vs total size of signatures
 
 3. **Phase 3: Integration**
+
    - Relay implementation
    - Client libraries
    - Documentation
