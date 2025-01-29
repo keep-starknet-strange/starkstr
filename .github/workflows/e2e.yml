@@ -14,41 +14,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-          cache: "npm"
-          cache-dependency-path: apps/aggsig_checker_cli/package-lock.json
-
-      - name: Setup Rust stable
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Setup Rust nightly
+      - name: Install Rust nightly
         uses: dtolnay/rust-toolchain@nightly
 
-      - name: Install Scarb
-        run: |
-          rustup default stable
-          cd packages/aggsig_checker
-          make install-scarb
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-      - name: Install Stwo
+      - name: Install Scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.10.0-rc.1"
+
+      - name: Install Stwo and Python dependencies
         run: |
           rustup default nightly
           cd packages/aggsig_checker
-          make install-stwo
-
-      - name: Install jq
-        run: sudo apt-get install -y jq
-
-      - name: Install CLI dependencies
-        run: |
-          cd apps/aggsig_checker_cli
-          npm i
-          cd ../..
+          make install
 
       - name: Run end-to-end test
         run: |
-          chmod +x scripts/verify_nostr_event_batch_signatures.sh
-          ./scripts/verify_nostr_event_batch_signatures.sh
+          cd packages/aggsig_checker
+          make e2e
