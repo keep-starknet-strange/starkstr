@@ -19,26 +19,8 @@ jobs:
         with:
           scarb-version: "2.10.0-rc.1"
 
-      - name: Check cairo format
+      - name: Check formatting
         run: scarb fmt --check
-        working-directory: packages/aggsig_checker
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Install Scarb
-        uses: software-mansion/setup-scarb@v1
-        with:
-          scarb-version: "2.10.0-rc.1"
-
-      - name: Build project for proving
-        run: scarb --profile proving build
         working-directory: packages/aggsig_checker
 
   test:
@@ -55,3 +37,19 @@ jobs:
       - name: Run tests
         run: scarb test
         working-directory: packages/aggsig_checker
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Scarb
+        uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "2.10.0-rc.1"
+
+      - name: Build project for proving
+        run: scarb --profile proving build
+        working-directory: packages/aggsig_checker
+
