@@ -1,7 +1,8 @@
 install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
 		cargo install \
-		--git https://github.com/starkware-libs/stwo-cairo \
+		--git https://github.com/m-kus/stwo-cairo \
+		--rev 83367f182e453ac41aa4be4107e9a684c534fa79 \
 		adapted_stwo
 
 install-requirements:
@@ -29,6 +30,7 @@ prove:
 	adapted_stwo \
 		--priv_json target/execute/aggsig_checker/air_private_input.json \
 		--pub_json target/execute/aggsig_checker/air_public_input.json \
+		--params_json prover_params.json \
 		--proof_path target/proof.json \
 		--verify
 

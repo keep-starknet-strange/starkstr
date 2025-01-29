@@ -16,8 +16,6 @@ const TWO_POW_96: u128 = 0x1000000000000000000000000;
 /// * `u256` - `sha256(tag) || sha256(tag) || bytes(rx) || bytes(px) || m` as u256
 ///    where tag = "BIP0340/challenge".
 pub fn hash_challenge(rx: u256, px: u256, m: u256) -> u256 {
-    println!("m: {m}");
-
     let mut input: Array<u32> = array![
         // sha256(tag)
         0x7bb52d7a,
