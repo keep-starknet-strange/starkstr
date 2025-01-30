@@ -10,7 +10,10 @@ cairo_execute = "2.10.0-rc.1"
 [executable]
 
 [lib]
-casm = true
+
+[profile.profiling]
+unstable-add-statements-functions-debug-info = true
+unstable-add-statements-code-locations-debug-info = true
 
 [profile.proving]
 inherits = "release"

@@ -1,8 +1,11 @@
+NUM_EVENTS ?= 10
+OUTPUT_DIR ?= tests/data
+
 install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
 		cargo install \
 		--git https://github.com/m-kus/stwo-cairo \
-		--rev 83367f182e453ac41aa4be4107e9a684c534fa79 \
+		--rev df1d4984c2d10ba06aca54a38892bb20cedfd5de \
 		adapted_stwo
 
 install-requirements:
@@ -12,19 +15,21 @@ install:
 	$(MAKE) install-stwo
 	$(MAKE) install-requirements
 
+build:
+	scarb --profile proving build --target-kinds executable
+
 events:
-	python scripts/gen_events.py 10 > tests/data/sample_events.json
+	python scripts/gen_events.py $(NUM_EVENTS) > $(OUTPUT_DIR)/events.json
 
 args:
-	python scripts/gen_args.py --file tests/data/sample_events.json --target cairo-run > tests/data/sample_args.json
-	python scripts/gen_args.py --file tests/data/sample_events.json --target execute > tests/data/sample_exec_args.json
+	python scripts/gen_args.py --file $(OUTPUT_DIR)/events.json --target execute > $(OUTPUT_DIR)/args.json
 
 execute:
 	rm -rf target/execute \
-		&& scarb --profile proving execute --arguments-file tests/data/sample_exec_args.json --print-program-output
-
-run:
-	scarb cairo-run --arguments-file tests/data/sample_args.json --print-resource-usage
+		&& scarb --profile proving execute \
+		--no-build \
+		--arguments-file $(OUTPUT_DIR)/args.json \
+		--print-program-output
 
 prove:
 	adapted_stwo \
@@ -37,5 +42,9 @@ prove:
 e2e:
 	$(MAKE) events
 	$(MAKE) args
+	$(MAKE) build
 	$(MAKE) execute
 	$(MAKE) prove
+
+burn:
+	scarb burn --arguments-file tests/data/args.json --no-build --output-file target/graph.svg --open-in-browser
