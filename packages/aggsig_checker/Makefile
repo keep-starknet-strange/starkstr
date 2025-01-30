@@ -5,7 +5,7 @@ install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
 		cargo install \
 		--git https://github.com/m-kus/stwo-cairo \
-		--rev df1d4984c2d10ba06aca54a38892bb20cedfd5de \
+		--rev b32175604169e6fc0a7a3d35cf50d7e37865be5a \
 		adapted_stwo
 
 install-requirements:
@@ -47,4 +47,4 @@ e2e:
 	$(MAKE) prove
 
 burn:
-	scarb burn --arguments-file tests/data/args.json --no-build --output-file target/graph.svg --open-in-browser
+	scarb burn --arguments-file tests/data/args.json --output-file target/graph.svg --open-in-browser
