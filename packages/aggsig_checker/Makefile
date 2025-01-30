@@ -23,6 +23,7 @@ events:
 
 args:
 	python scripts/gen_args.py --file $(OUTPUT_DIR)/events.json --target execute > $(OUTPUT_DIR)/args.json
+	python scripts/gen_args.py --file $(OUTPUT_DIR)/events.json --target cairo-run > $(OUTPUT_DIR)/args_test.json
 
 execute:
 	rm -rf target/execute \
