@@ -17,6 +17,12 @@ make install
 ```
 ## Usage
 
+Build the Cairo program:
+
+```sh
+make build
+```
+
 Generate execution trace for a sample arguments file:
 
 ```sh
@@ -61,13 +67,13 @@ In order to run the Cairo program either in "dev" or in "prove" mode, you need t
 Use the `gen_args.py` script to generate arguments for the program.
 
 ```sh
-python scripts/gen_args.py --file tests/data/sample_events.json --target cairo-run
+python scripts/gen_args.py --file tests/data/sample_events.json --target execute
 ```
 
 The following command will generate arguments for the program given the events file and print them to the stdout.  
-Note that the `cairo-run` target is used for the "dev" mode, while the `execute` target is used for the "prove" mode.
+Note that the `cairo-run` target is used for the backwards compatibility with `scarb cairo-run`, while the `execute` target is used for the `scarb execute` command.
 
-The following command will generate arguments for the program given the events file and save them to `tests/data/sample_args.json` and `tests/data/sample_exec_args.json` respectively:
+The following command will generate arguments for the program given the events file and save them to `tests/data/args.json`:
 
 ```sh
 make args

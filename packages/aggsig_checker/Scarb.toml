@@ -10,7 +10,10 @@ cairo_execute = "2.10.0-rc.1"
 [executable]
 
 [lib]
-casm = true
+
+[profile.profiling]
+unstable-add-statements-functions-debug-info = true
+unstable-add-statements-code-locations-debug-info = true
 
 [profile.proving]
 inherits = "release"
@@ -22,4 +25,4 @@ enable-gas = false
 cairo_test = "2.10.0-rc.1"
 
 [scripts]
-test = "scarb cairo-test && scarb cairo-run --arguments-file tests/data/sample_args.json"
+test = "scarb cairo-test && scarb cairo-run --arguments-file tests/data/args_test.json"
