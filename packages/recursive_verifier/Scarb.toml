@@ -1,0 +1,25 @@
+[package]
+name = "recursive_verifier"
+version = "0.1.0"
+edition = "2024_07"
+
+[dependencies]
+stwo_cairo_air = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "466480e03618bb5c6a042a8f80a1586364995431" }
+cairo_execute = "2.10.0-rc.1"
+
+[executable]
+
+[lib]
+
+[profile.profiling]
+unstable-add-statements-functions-debug-info = true
+unstable-add-statements-code-locations-debug-info = true
+
+[profile.proving]
+inherits = "release"
+
+[profile.proving.cairo]
+enable-gas = false
+
+[dev-dependencies]
+cairo_test = "2.10.0-rc.1"

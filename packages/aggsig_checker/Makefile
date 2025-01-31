@@ -40,6 +40,15 @@ prove:
 		--proof_path target/proof.json \
 		--verify
 
+prove-rec:
+	adapted_stwo \
+		--priv_json target/execute/aggsig_checker/air_private_input.json \
+		--pub_json target/execute/aggsig_checker/air_public_input.json \
+		--params_json prover_params_rec.json \
+		--proof_path target/proof_rec.json \
+		--proof-format cairo-serde \
+		--verify
+
 e2e:
 	$(MAKE) events
 	$(MAKE) args
