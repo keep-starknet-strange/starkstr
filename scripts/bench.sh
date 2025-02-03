@@ -19,7 +19,7 @@ declare -a total_steps
 
 # Run benchmarks
 row=0
-for n in $(seq 5 5 50); do
+for n in $(seq 5 5 100); do
     export NUM_EVENTS=$n
     export OUTPUT_DIR=$TMP_DIR
 

@@ -11,6 +11,7 @@ name = "recursive_verifier"
 version = "0.1.0"
 dependencies = [
  "stwo_cairo_air",
+ "stwo_verifier_core",
 ]
 
 [[package]]

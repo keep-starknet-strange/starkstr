@@ -5,6 +5,7 @@ edition = "2024_07"
 
 [dependencies]
 stwo_cairo_air = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "466480e03618bb5c6a042a8f80a1586364995431" }
+stwo_verifier_core = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "466480e03618bb5c6a042a8f80a1586364995431" }
 cairo_execute = "2.10.0-rc.1"
 
 [executable]
