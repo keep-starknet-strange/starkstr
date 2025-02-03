@@ -1,11 +1,11 @@
-NUM_EVENTS ?= 10
+NUM_EVENTS ?= 5
 OUTPUT_DIR ?= tests/data
 
 install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
 		cargo install \
-		--git https://github.com/m-kus/stwo-cairo \
-		--rev b32175604169e6fc0a7a3d35cf50d7e37865be5a \
+		--git https://github.com/starkware-libs/stwo-cairo \
+		--rev a27287c21e8b7e677b07cc40988c8c145533c55d \
 		adapted_stwo
 
 install-requirements:
@@ -34,9 +34,8 @@ execute:
 
 prove:
 	adapted_stwo \
-		--priv_json target/execute/aggsig_checker/air_private_input.json \
-		--pub_json target/execute/aggsig_checker/air_public_input.json \
-		--params_json prover_params.json \
+		--priv_json target/execute/aggsig_checker/execution1/air_private_input.json \
+		--pub_json target/execute/aggsig_checker/execution1/air_public_input.json \
 		--proof_path target/proof.json \
 		--verify
 
