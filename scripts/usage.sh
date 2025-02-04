@@ -13,16 +13,19 @@ declare -a add_mod_arr
 declare -a poseidon_arr
 declare -a total_steps_arr
 
+# Build once
+scarb build --target-kinds lib
+
 # Run analysis
 row=0
-for n in $(seq 5 5 50); do
+for n in $(seq 5 5 65); do
     export NUM_EVENTS=$n
 
     make events
     make args
     
     # Capture execute output
-    raw_output=$(make execute 2>&1)
+    raw_output=$(make run 2>&1)
     echo "$raw_output" >&2
     
     # Extract total steps
@@ -31,12 +34,12 @@ for n in $(seq 5 5 50); do
     # Extract builtin usage using grep and sed
     builtins_line=$(echo "$raw_output" | grep "builtins:")
     
-    range_check=$(echo "$builtins_line" | grep -o '"range_check_builtin": [0-9]*' | awk '{print $2}')
-    bitwise=$(echo "$builtins_line" | grep -o '"bitwise_builtin": [0-9]*' | awk '{print $2}')
-    range_check96=$(echo "$builtins_line" | grep -o '"range_check96_builtin": [0-9]*' | awk '{print $2}')
-    mul_mod=$(echo "$builtins_line" | grep -o '"mul_mod_builtin": [0-9]*' | awk '{print $2}')
-    add_mod=$(echo "$builtins_line" | grep -o '"add_mod_builtin": [0-9]*' | awk '{print $2}')
-    poseidon=$(echo "$builtins_line" | grep -o '"poseidon_builtin": [0-9]*' | awk '{print $2}')
+    range_check=$(echo "$builtins_line" | grep -o "range_check: [0-9]*" | awk '{print $2}')
+    bitwise=$(echo "$builtins_line" | grep -o "bitwise: [0-9]*" | awk '{print $2}')
+    range_check96=$(echo "$builtins_line" | grep -o "range_check96: [0-9]*" | awk '{print $2}')
+    mul_mod=$(echo "$builtins_line" | grep -o "mul_mod: [0-9]*" | awk '{print $2}')
+    add_mod=$(echo "$builtins_line" | grep -o "add_mod: [0-9]*" | awk '{print $2}')
+    poseidon=$(echo "$builtins_line" | grep -o "poseidon: [0-9]*" | awk '{print $2}')
     
     # Store results
     events_arr[$row]=$n
@@ -54,7 +57,7 @@ done
 # Print the table
 printf "\n\n"  # Add some space after the logs
 printf "+------------+----------------+----------------+--------------------+----------------+---------------+-----------------+----------------+\n"
-printf "| num events | range_check    | bitwise        | range_check96      | mul_mod        | add_mod       | poseidon        | total steps    |\n"
+printf "| num events | range_check    | bitwise        | range_check96      | mul_mod        | add_mod       | poseidon        | cairo steps    |\n"
 printf "+------------+----------------+----------------+--------------------+----------------+---------------+-----------------+----------------+\n"
 
 for ((i=0; i<${#events_arr[@]}; i++)); do

@@ -4,8 +4,8 @@ OUTPUT_DIR ?= tests/data
 install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
 		cargo install \
-		--git https://github.com/starkware-libs/stwo-cairo \
-		--rev a27287c21e8b7e677b07cc40988c8c145533c55d \
+		--git https://github.com/m-kus/stwo-cairo \
+		--rev b32175604169e6fc0a7a3d35cf50d7e37865be5a \
 		adapted_stwo
 
 install-requirements:
@@ -33,11 +33,15 @@ execute:
 		--print-program-output \
 		--print-resource-usage
 
+run:
+	scarb cairo-run --no-build --arguments-file $(OUTPUT_DIR)/args_test.json --print-resource-usage
+
 prove:
 	adapted_stwo \
 		--priv_json ../../target/execute/aggsig_checker/execution1/air_private_input.json \
 		--pub_json ../../target/execute/aggsig_checker/execution1/air_public_input.json \
 		--proof_path target/proof.json \
+		--params_json prover_params.json \
 		--verify
 
 e2e:
@@ -53,4 +57,4 @@ burn:
 test:
 	scarb test
 	scarb build --target-kinds lib
-	scarb cairo-run --no-build --arguments-file tests/data/args_test.json
+	$(MAKE) run
