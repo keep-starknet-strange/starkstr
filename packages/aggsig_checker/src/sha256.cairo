@@ -177,7 +177,7 @@ fn create_message_schedule(data: Span<u32>, i: usize) -> Span<u32> {
     let mut result = array![];
     for j in 0..16_usize {
         result.append(*data[i * 16 + j]);
-    };
+    }
     for i in 16..64_usize {
         let s0 = ssig0(*result[i - 15]);
         let s1 = ssig1(*result[i - 2]);
@@ -185,7 +185,7 @@ fn create_message_schedule(data: Span<u32>, i: usize) -> Span<u32> {
         let (tmp, _) = tmp.overflowing_add(*result[i - 7]);
         let (res, _) = tmp.overflowing_add(s1);
         result.append(res);
-    };
+    }
     result.span()
 }
 

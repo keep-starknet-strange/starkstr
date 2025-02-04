@@ -17,7 +17,7 @@ jobs:
       - name: Set up Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.10.0-rc.1"
+          scarb-version: "nightly"
 
       - name: Check formatting
         run: scarb fmt --check
@@ -32,10 +32,10 @@ jobs:
       - name: Install Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.10.0-rc.1"
+          scarb-version: "nightly"
 
       - name: Run tests
-        run: scarb test
+        run: make test
         working-directory: packages/aggsig_checker
 
   build:
@@ -47,9 +47,9 @@ jobs:
       - name: Install Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.10.0-rc.1"
+          scarb-version: "nightly"
 
       - name: Build project for proving
-        run: scarb --profile proving build
+        run: make build
         working-directory: packages/aggsig_checker
 

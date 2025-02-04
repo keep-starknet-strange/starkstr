@@ -25,7 +25,7 @@ jobs:
       - name: Install Scarb
         uses: software-mansion/setup-scarb@v1
         with:
-          scarb-version: "2.10.0-rc.1"
+          scarb-version: "nightly"
 
       - name: Install Stwo and Python dependencies
         run: |
@@ -36,4 +36,6 @@ jobs:
       - name: Run end-to-end test
         run: |
           cd packages/aggsig_checker
-          make e2e
+          make build
+          make execute
+          make prove
