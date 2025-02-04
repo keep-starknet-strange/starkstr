@@ -30,12 +30,13 @@ execute:
 		&& scarb --profile proving execute \
 		--no-build \
 		--arguments-file $(OUTPUT_DIR)/args.json \
-		--print-program-output
+		--print-program-output \
+		--print-resource-usage
 
 prove:
 	adapted_stwo \
-		--priv_json target/execute/aggsig_checker/execution1/air_private_input.json \
-		--pub_json target/execute/aggsig_checker/execution1/air_public_input.json \
+		--priv_json ../../target/execute/aggsig_checker/execution1/air_private_input.json \
+		--pub_json ../../target/execute/aggsig_checker/execution1/air_public_input.json \
 		--proof_path target/proof.json \
 		--verify
 
@@ -48,3 +49,8 @@ e2e:
 
 burn:
 	scarb burn --arguments-file tests/data/args.json --output-file target/graph.svg --open-in-browser
+
+test:
+	scarb test
+	scarb build --target-kinds lib
+	scarb cairo-run --no-build --arguments-file tests/data/args_test.json

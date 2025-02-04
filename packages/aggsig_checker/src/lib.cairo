@@ -1,11 +1,10 @@
 mod nip01;
 mod schnorr;
 mod sha256;
-
-use garaga::ec_ops::{DerivePointFromXHint, MSMHint};
 use garaga::definitions::SECP256K1;
-use schnorr::verify_schnorr;
+use garaga::ec_ops::{DerivePointFromXHint, MSMHint};
 use nip01::hash_challenge;
+use schnorr::verify_schnorr;
 
 /// Struct representing a signed Nostr event with hints for the signature verification.
 #[derive(Drop, Serde)]

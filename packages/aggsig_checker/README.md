@@ -2,20 +2,38 @@
 
 This package contains the Cairo implementation of a program that verifies a batch of Nostr events.
 
-## Prerequisites
+## Quickstart
+
+Make sure you have **nightly** [Scarb](https://docs.swmansion.com/scarb/download.html) installed.
+
+Generate a proof for sample events:
+
+```sh
+scarb --profile proving prove --execute --arguments-file tests/data/args.json
+```
+
+Verify the proof:
+
+```sh
+scarb verify --execution-id 1
+```
+
+## Development
+
+### Prerequisites
 
 - [Rust nightly toolchain](https://www.rust-lang.org/tools/install)
 - [Python 3.10](https://www.python.org/downloads/) ([pyenv](https://github.com/pyenv/pyenv) recommended)
-- [Scarb](https://docs.swmansion.com/scarb/download.html) 2.10.0-rc.1
 
-## Setup
+### Setup
 
 Install dependencies:
 
 ```sh
 make install
 ```
-## Usage
+
+### Usage
 
 Build the Cairo program:
 
@@ -37,7 +55,7 @@ make prove
 
 The command will generate a proof and verify it locally.
 
-## Testing
+### Testing
 
 Run the test suite:
 

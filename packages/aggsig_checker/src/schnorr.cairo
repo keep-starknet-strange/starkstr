@@ -1,9 +1,7 @@
-use garaga::definitions::Zero;
-use garaga::ec_ops::G1PointTrait;
-use garaga::definitions::SECP256K1;
-use garaga::ec_ops::{DerivePointFromXHint, G1Point, MSMHint, msm_g1, u384};
-use garaga::basic_field_ops::neg_mod_p;
 use core::circuit::{CircuitModulus, u96};
+use garaga::basic_field_ops::neg_mod_p;
+use garaga::definitions::{SECP256K1, Zero};
+use garaga::ec_ops::{DerivePointFromXHint, G1Point, G1PointTrait, MSMHint, msm_g1, u384};
 
 pub const SECP256K1_G1_GENERATOR: G1Point = G1Point {
     x: u384 {

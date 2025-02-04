@@ -11,18 +11,5 @@ cairo_execute = "2.9.2"
 
 [lib]
 
-[profile.profiling]
-unstable-add-statements-functions-debug-info = true
-unstable-add-statements-code-locations-debug-info = true
-
-[profile.proving]
-inherits = "release"
-
-[profile.proving.cairo]
-enable-gas = false
-
 [dev-dependencies]
 cairo_test = "2.9.2"
-
-[scripts]
-test = "scarb cairo-test && scarb cairo-run --arguments-file tests/data/args_test.json"
