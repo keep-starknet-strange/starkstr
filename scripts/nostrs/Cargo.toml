@@ -1,0 +1,10 @@
+[package]
+name = "nostrs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+nostr = "0.39.0"
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+anyhow = "1.0.80"
