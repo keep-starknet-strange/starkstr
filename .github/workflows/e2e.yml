@@ -36,4 +36,6 @@ jobs:
       - name: Run end-to-end test
         run: |
           cd packages/aggsig_checker
-          make e2e
+          make build
+          make execute
+          make prove
