@@ -16,6 +16,8 @@ jobs:
 
       - name: Install Rust nightly
         uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly-2025-01-02
 
       - name: Install Python
         uses: actions/setup-python@v5
@@ -29,7 +31,7 @@ jobs:
 
       - name: Install Stwo and Python dependencies
         run: |
-          rustup default nightly
+          rustup default nightly-2025-01-02
           cd packages/aggsig_checker
           make install
 

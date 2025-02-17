@@ -5,8 +5,8 @@ TARGET_DIR ?= ../../target
 install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
 		cargo install \
-		--git https://github.com/m-kus/stwo-cairo \
-		--rev b32175604169e6fc0a7a3d35cf50d7e37865be5a \
+		--git https://github.com/starkware-libs/stwo-cairo \
+		--rev 9613dbf6c49a8702d92744878f89d163e587e888 \
 		adapted_stwo
 
 install-requirements:

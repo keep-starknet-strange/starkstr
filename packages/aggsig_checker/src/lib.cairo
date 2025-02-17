@@ -1,28 +1,16 @@
 mod nip01;
-mod schnorr;
 mod sha256;
 use garaga::definitions::SECP256K1;
-use garaga::ec_ops::{DerivePointFromXHint, MSMHint};
+use garaga::signatures::schnorr::{SchnorrSignatureWithHint, is_valid_schnorr_signature};
 use nip01::hash_challenge;
-use schnorr::verify_schnorr;
 
 /// Struct representing a signed Nostr event with hints for the signature verification.
 #[derive(Drop, Serde)]
 pub struct NostrSignedEvent {
     /// Nostr event's ID (the signed message)
     pub m: u256,
-    /// The x-coordinate of the public key.
-    pub px: u256,
-    /// The y-coordinate of the public key (hint).
-    pub py: u256,
-    /// The x-coordinate of the R point from the signature.
-    pub rx: u256,
-    /// The scalar component of the signature.
-    pub s: u256,
-    /// MSM hint for the signature verification.
-    pub msm_hint: MSMHint,
-    /// EC point derive hint for the signature verification.
-    pub msm_derive_hint: DerivePointFromXHint,
+    /// Garaga Schnorr signature with MSM hints, public key, and hash challenge
+    pub sig_with_hint: SchnorrSignatureWithHint,
 }
 
 // ***************************************
@@ -45,9 +33,11 @@ pub fn main(arguments: Array<felt252>) {
 /// Fails if any of the signatures are invalid
 pub fn verify_event_batch(events: Array<NostrSignedEvent>) {
     for event in events {
-        let e = hash_challenge(event.rx, event.px, event.m) % SECP256K1.n;
-        verify_schnorr(
-            event.rx, event.s, e, event.px, event.py, event.msm_hint, event.msm_derive_hint,
-        );
+        let e = hash_challenge(
+            event.sig_with_hint.signature.rx, event.sig_with_hint.signature.px, event.m,
+        ) % SECP256K1
+            .n;
+        assert(e == event.sig_with_hint.signature.e, 'Invalid challenge');
+        assert(is_valid_schnorr_signature(event.sig_with_hint, 2), 'Invalid signature');
     }
 }
