@@ -1,3 +1,4 @@
+use core::circuit::u384;
 use core::traits::DivRem;
 use crate::sha256::compute_sha256_u32_array;
 
@@ -15,7 +16,7 @@ const TWO_POW_96: u128 = 0x1000000000000000000000000;
 /// # Returns:
 /// * `u256` - `sha256(tag) || sha256(tag) || bytes(rx) || bytes(px) || m` as u256
 ///    where tag = "BIP0340/challenge".
-pub fn hash_challenge(rx: u256, px: u256, m: u256) -> u256 {
+pub fn hash_challenge(rx: u384, px: u384, m: u256) -> u256 {
     let mut input: Array<u32> = array![
         // sha256(tag)
         0x7bb52d7a,
@@ -36,6 +37,9 @@ pub fn hash_challenge(rx: u256, px: u256, m: u256) -> u256 {
         0x49fe518f,
         0x6d48d37c,
     ];
+
+    let rx: u256 = rx.try_into().expect('rx u256 cast');
+    let px: u256 = px.try_into().expect('px u256 cast');
 
     append_u256(ref input, rx);
     append_u256(ref input, px);

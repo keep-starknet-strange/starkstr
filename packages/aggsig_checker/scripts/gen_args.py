@@ -1,6 +1,6 @@
 from nostr.key import PublicKey
-from garaga import garaga_rs
 from garaga.definitions import CurveID, G1Point, CURVES
+from garaga.starknet.tests_and_calldata_generators.signatures import SchnorrSignature
 from hashlib import sha256
 import sys
 import json
@@ -28,18 +28,6 @@ def hash_challenge(rx: int, px: int, msg: int) -> int:
     tagged_hash = sha256("BIP0340/challenge".encode()).digest()
     input = tagged_hash + tagged_hash + rx.to_bytes(32, "big") + px.to_bytes(32, "big") + msg.to_bytes(32, "big")
     return int.from_bytes(sha256(input).digest(), "big")
-
-
-def gen_msm_hint(generator_point: G1Point, pk_point: G1Point, s: int, e_neg: int):
-    return garaga_rs.msm_calldata_builder(
-        [generator_point.x, generator_point.y, pk_point.x, pk_point.y],
-        [s, e_neg],
-        CurveID.SECP256K1.value,
-        False,  # include_digits_decomposition
-        False,  # include_points_and_scalars
-        False,  # serialize_as_pure_felt252_array
-        False,  # risc0_mode
-    )
 
 
 def derive_point_from_x(x, is_even):
@@ -75,9 +63,6 @@ def handle_event(event: dict) -> dict:
     px = int.from_bytes(pubkey.raw_bytes, "big")
     _, py = derive_point_from_x(px, is_even=True)
 
-    generator_point = G1Point.get_nG(CurveID.SECP256K1, 1)
-    pk_point = G1Point(px, py, CurveID.SECP256K1)
-
     sig = bytes.fromhex(event["nostr_event"]["sig"])
     rx = int.from_bytes(sig[:32], "big")
     s = int.from_bytes(sig[32:], "big")
@@ -86,7 +71,15 @@ def handle_event(event: dict) -> dict:
     
     n = CURVES[CurveID.SECP256K1.value].n
     e = hash_challenge(rx, px, msg) % n
-    e_neg = -e % n
+
+    signature = SchnorrSignature(
+        rx,
+        s,
+        e,
+        px,
+        py,
+        curve_id=CurveID.SECP256K1
+    )
 
     # print(f"m: {msg}", file=sys.stderr)
     # print(f"rx: {rx}", file=sys.stderr)
@@ -95,15 +88,9 @@ def handle_event(event: dict) -> dict:
     # print(f"px: {px}", file=sys.stderr)
     # print(f"py: {py}", file=sys.stderr)
 
-    msm_hint = gen_msm_hint(generator_point, pk_point, s, e_neg)
-
     return [
         *to_u256(msg),
-        *to_u256(px),
-        *to_u256(py),
-        *to_u256(rx),
-        *to_u256(s),
-        *msm_hint[1:]  # remove `include_digits_decomposition` flag
+        *signature.serialize_with_hints(),
     ]
 
 

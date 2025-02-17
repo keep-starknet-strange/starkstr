@@ -10,5 +10,5 @@ dependencies = [
 
 [[package]]
 name = "garaga"
-version = "0.15.3"
-source = "git+https://github.com/m-kus/garaga?rev=65db99b8ba9ff19e7f19609cd06f8220d8406881#65db99b8ba9ff19e7f19609cd06f8220d8406881"
+version = "0.15.4"
+source = "git+https://github.com/m-kus/garaga?rev=dd7743b4d623eafde5a9671c387d098e2eca5b00#dd7743b4d623eafde5a9671c387d098e2eca5b00"
