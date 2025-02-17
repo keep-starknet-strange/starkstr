@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2024_07"
 
 [dependencies]
-garaga = { git = "https://github.com/m-kus/garaga", rev = "65db99b8ba9ff19e7f19609cd06f8220d8406881" }
-cairo_execute = "2.10.0-rc.1"
+garaga = { git = "https://github.com/m-kus/garaga", rev = "dd7743b4d623eafde5a9671c387d098e2eca5b00" }
+cairo_execute = "2.9.2"
 
 [executable]
 
@@ -22,7 +22,7 @@ inherits = "release"
 enable-gas = false
 
 [dev-dependencies]
-cairo_test = "2.10.0-rc.1"
+cairo_test = "2.9.2"
 
 [scripts]
 test = "scarb cairo-test && scarb cairo-run --arguments-file tests/data/args_test.json"

@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2024_07"
 
 [dependencies]
-stwo_cairo_air = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "466480e03618bb5c6a042a8f80a1586364995431" }
-stwo_verifier_core = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "466480e03618bb5c6a042a8f80a1586364995431" }
-cairo_execute = "2.10.0-rc.1"
+stwo_cairo_air = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "ccd15a48d1d1d732bdb8a1e1e769600623896f00" }
+stwo_verifier_core = { git = "https://github.com/starkware-libs/stwo-cairo", rev = "ccd15a48d1d1d732bdb8a1e1e769600623896f00" }
+cairo_execute = "2.9.2"
 
 [executable]
 
@@ -23,4 +23,4 @@ inherits = "release"
 enable-gas = false
 
 [dev-dependencies]
-cairo_test = "2.10.0-rc.1"
+cairo_test = "2.9.2"

@@ -42,8 +42,8 @@ prove:
 
 prove-rec:
 	adapted_stwo \
-		--priv_json target/execute/aggsig_checker/air_private_input.json \
-		--pub_json target/execute/aggsig_checker/air_public_input.json \
+		--priv_json ../../target/execute/aggsig_checker/execution1/air_private_input.json \
+		--pub_json ../../target/execute/aggsig_checker/execution1/air_public_input.json \
 		--params_json prover_params_rec.json \
 		--proof_path target/proof_rec.json \
 		--proof-format cairo-serde \

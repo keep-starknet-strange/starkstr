@@ -7,7 +7,9 @@ fn main(args: Array<felt252>) {
 
     let claim: CairoClaim = Serde::deserialize(ref args).expect('cairo claim');
     let interaction_claim: CairoInteractionClaim = Serde::deserialize(ref args).expect('cairo interaction claim');
-    let stark_proof: StarkProof = Serde::deserialize(ref args).expect('stark proof');
+    let stark_proof: StarkProof<felt252> = Serde::deserialize(ref args).expect('stark proof');
+
+    // let proof: CairoProof = Serde::deserialize(ref args).expect('cairo proof');
 
     // print!("Verifying proof...");
     // if let Result::Err(err) = verify_cairo(proof) {
