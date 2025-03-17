@@ -5,11 +5,11 @@ edition = "2024_07"
 
 [dependencies]
 garaga = { git = "https://github.com/m-kus/garaga", rev = "dd7743b4d623eafde5a9671c387d098e2eca5b00" }
-cairo_execute = "2.9.2"
+cairo_execute = "2.11.2"
 
 [executable]
 
 [lib]
 
 [dev-dependencies]
-cairo_test = "2.9.2"
+cairo_test = "2.11.2"

@@ -25,9 +25,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install Scarb
-        uses: software-mansion/setup-scarb@v1
-        with:
-          scarb-version: "nightly"
+        uses: software-mansion/setup-scarb@v1.3.2
 
       - name: Install Stwo and Python dependencies
         run: |
