@@ -1,5 +1,6 @@
 NUM_EVENTS ?= 10
 OUTPUT_DIR ?= tests/data
+SCARB = ~/.local/share/scarb-install/nightly/bin/scarb
 
 install-stwo:
 	RUSTFLAGS="-C target-cpu=native -C opt-level=3" \
@@ -16,7 +17,7 @@ install:
 	$(MAKE) install-requirements
 
 build:
-	scarb --profile proving build --target-kinds executable
+	$(SCARB) --profile proving build --target-kinds executable
 
 events:
 	python scripts/gen_events.py $(NUM_EVENTS) > $(OUTPUT_DIR)/events.json
@@ -27,11 +28,26 @@ args:
 
 execute:
 	rm -rf target/execute \
-		&& scarb --profile proving execute \
+		&& $(SCARB) --profile proving execute \
 		--no-build \
 		--target standalone \
 		--arguments-file $(OUTPUT_DIR)/args.json \
 		--print-program-output
+
+cairo-execute:
+	rm -rf target/execute \
+		&& mkdir -p target/execute/aggsig_checker/execution1 \
+		&& cairo-execute \
+		--layout all_cairo \
+		--args-file $(OUTPUT_DIR)/args.json \
+		--standalone \
+		--disable-trace-padding true \
+		--prebuilt \
+		--trace-file target/execute/aggsig_checker/execution1/trace.bin \
+		--memory-file target/execute/aggsig_checker/execution1/memory.bin \
+		--air-public-input target/execute/aggsig_checker/execution1/air_public_input.json \
+		--air-private-input target/execute/aggsig_checker/execution1/air_private_input.json \
+		target/proving/aggsig_checker.executable.json
 
 prove:
 	adapted_stwo \
