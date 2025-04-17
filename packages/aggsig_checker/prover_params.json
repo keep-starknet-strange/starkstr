@@ -7,5 +7,6 @@
             "log_blowup_factor": 1,
             "n_queries": 70
         }
-    }
+    },
+    "preprocessed_trace": "canonical_without_pedersen"
 }

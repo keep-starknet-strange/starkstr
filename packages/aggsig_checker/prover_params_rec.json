@@ -1,5 +1,5 @@
 {
-    "channel_hash": "poseidon252",
+    "channel_hash": "blake2s",
     "pcs_config": {
         "pow_bits": 0,
         "fri_config": {
@@ -7,5 +7,6 @@
             "log_blowup_factor": 1,
             "n_queries": 1
         }
-    }
+    },
+    "preprocessed_trace": "canonical_without_pedersen"
 }
