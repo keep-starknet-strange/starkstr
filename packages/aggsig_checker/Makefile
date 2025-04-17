@@ -9,6 +9,13 @@ install-stwo:
 		--rev f23b836909fdee27760bf5d7e7bf12110b7d562b \
 		adapted_stwo
 
+install-cairo1-run:
+	cargo install \
+		--git https://github.com/lambdaclass/cairo-vm \
+		--rev 9c44e1cef56c6ea557d6441e27ad3c756bbbe8a9 \
+		--features mod_builtin \
+		cairo1-run
+
 install-requirements:
 	pip install -r scripts/requirements.txt
 
@@ -18,6 +25,9 @@ install:
 
 build:
 	$(SCARB) --profile proving build --target-kinds executable
+
+build-sierra:
+	$(SCARB) --profile proving build --target-kinds lib
 
 events:
 	python scripts/gen_events.py $(NUM_EVENTS) > $(OUTPUT_DIR)/events.json
@@ -38,7 +48,7 @@ cairo-execute:
 	rm -rf target/execute \
 		&& mkdir -p target/execute/aggsig_checker/execution1 \
 		&& cairo-execute \
-		--layout all_cairo \
+		--layout all_cairo_stwo \
 		--args-file $(OUTPUT_DIR)/args.json \
 		--standalone \
 		--disable-trace-padding true \
@@ -48,6 +58,16 @@ cairo-execute:
 		--air-public-input target/execute/aggsig_checker/execution1/air_public_input.json \
 		--air-private-input target/execute/aggsig_checker/execution1/air_private_input.json \
 		target/proving/aggsig_checker.executable.json
+
+cairo1-run:
+	cairo1-run target/proving/aggsig_checker.sierra.json \
+		--layout all_cairo \
+		--args_file $(OUTPUT_DIR)/args_cairo1_run.txt \
+		--proof_mode \
+		--air_public_input target/execute/aggsig_checker/execution1/air_public_input.json \
+		--air_private_input target/execute/aggsig_checker/execution1/air_private_input.json \
+		--trace_file target/execute/aggsig_checker/execution1/trace.bin \
+		--memory_file target/execute/aggsig_checker/execution1/memory.bin
 
 prove:
 	adapted_stwo \

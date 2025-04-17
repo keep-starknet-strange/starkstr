@@ -30,7 +30,7 @@ pub struct NostrSignedEvent {
 // *********** MAIN ENTRYPOINT ***********
 // ***************************************
 #[executable]
-pub fn main(arguments: Array<felt252>) {
+fn main(arguments: Array<felt252>) -> Array<felt252> {
     let mut args = arguments.span();
     let events: Array<NostrSignedEvent> = Serde::deserialize(ref args)
         .expect('Deserialization failed');
@@ -40,6 +40,8 @@ pub fn main(arguments: Array<felt252>) {
     verify_event_batch(events);
 
     println!("Signature verification successful");
+
+    array![]
 }
 
 /// Verifies a batch of Nostr events signatures
